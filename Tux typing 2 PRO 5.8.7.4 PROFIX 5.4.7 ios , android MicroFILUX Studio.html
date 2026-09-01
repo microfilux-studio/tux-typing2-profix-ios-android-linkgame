@@ -1,0 +1,3712 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>Tux Typing 2 Pro 5.7.4 PROFIX 5.4 MicroFILUX Studio</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #0055ff;
+        }
+
+        .fps-box {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ffcc;
+            border-radius: 8px;
+            padding: 4px 12px;
+            color: #00ffcc;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+            text-shadow: 0 0 5px rgba(0, 255, 204, 0.8);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #menu-fps {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            z-index: 10;
+        }
+        
+        #menu-packages-btn {
+            position: absolute;
+            top: 25px;
+            left: 140px;
+            z-index: 10;
+            cursor: pointer;
+            background: rgba(255, 170, 0, 0.8);
+            border-color: #ffcc00;
+            color: #fff;
+            transition: 0.2s;
+        }
+        #menu-packages-btn:hover {
+            background: rgba(255, 170, 0, 1);
+            transform: scale(1.05);
+        }
+
+        #intro-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #002b80;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: white;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+        }
+
+        #intro-screen .title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        #intro-screen .studio {
+            font-size: 1.2rem;
+            font-weight: normal;
+            color: #aaddff;
+            margin-top: 15px;
+            letter-spacing: 2px;
+        }
+
+        /* Màn hình Login & Register riêng biệt */
+        #login-screen, #register-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #001a4d, #00081a);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 8;
+            color: white;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px 35px;
+            border-radius: 15px;
+            text-align: center;
+            width: 420px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.6);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .login-box h2 {
+            margin-bottom: 5px;
+            font-size: 2rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .security-notice {
+            font-size: 0.8rem;
+            color: #ffcc00;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .login-box label {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+            color: #ccffff;
+        }
+
+        .input-group {
+            position: relative;
+            width: 100%;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            user-select: text;
+        }
+
+        .login-box input[type="password"] {
+            padding-right: 40px;
+        }
+
+        .eye-btn {
+            position: absolute;
+            right: 10px;
+            top: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: 0.2s;
+            user-select: none;
+        }
+
+        .switch-auth-text {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #aaddff;
+        }
+
+        .switch-auth-text span {
+            color: #00ffcc;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        #menu-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0044cc, #002266);
+            z-index: 5;
+            color: white;
+        }
+
+        .settings-icon-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .settings-icon-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .level-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .level-btn {
+            padding: 10px 16px;
+            font-size: 1rem;
+            font-weight: bold;
+            background: #003399;
+            color: white;
+            border: 2px solid #0055ff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .level-btn:hover { background: #0044cc; }
+        .level-btn.selected {
+            background: #0066ff;
+            border-color: #ffffff;
+            box-shadow: 0 0 15px #00a2ff;
+        }
+
+        .main-btn {
+            padding: 14px 35px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            background: #00cc44;
+            color: white;
+            border: 4px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 8px;
+            transition: transform 0.1s;
+        }
+
+        .main-btn.secondary { background: #ff6600; }
+        .main-btn.info { background: #0099ff; }
+        .main-btn:active {
+            border-color: #00ffff !important;
+            box-shadow: 0 0 20px #00ffff;
+            transform: scale(0.95);
+        }
+
+        #settings-modal, #packages-modal, #package-info-modal, #troll-payment-modal {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none; justify-content: center; align-items: center;
+            z-index: 25; color: white;
+        }
+        
+        #package-info-modal { z-index: 30; }
+        #troll-payment-modal { z-index: 50; background: rgba(0, 0, 0, 0.95); }
+
+        .settings-box {
+            background: linear-gradient(135deg, #111a33, #0a0f1e);
+            padding: 25px 30px; border-radius: 15px; width: 440px;
+            border: 2px solid #00a2ff; box-shadow: 0 0 25px rgba(0, 162, 255, 0.4);
+            text-align: center;
+            max-height: 95vh;
+            overflow-y: auto;
+        }
+
+        .settings-box h2 { text-align: center; margin-bottom: 15px; color: #00ffcc; font-size: 1.8rem; }
+
+        .settings-avatar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .avatar-preview-wrap {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #00ffcc;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.6);
+            overflow: hidden;
+            cursor: pointer;
+            background: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .avatar-preview-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .settings-info-row {
+            margin-bottom: 10px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 10px; border-radius: 8px;
+            text-align: left;
+            position: relative;
+        }
+        .settings-info-row span { font-size: 0.8rem; color: #aaa; display: block; margin-bottom: 3px; }
+        .settings-info-row b { font-size: 1rem; color: white; word-break: break-all; }
+
+        .settings-eye-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1.2rem;
+            user-select: none;
+            transition: 0.2s;
+        }
+
+        #friends-screen {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #002244, #001122);
+            display: none; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 7; color: white;
+        }
+
+        .friends-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px; border-radius: 15px; width: 480px; height: 540px;
+            display: flex; flex-direction: column;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .friends-box h2 { text-align: center; margin-bottom: 15px; }
+
+        .friends-search-input {
+            width: 100%; padding: 10px; font-size: 1rem;
+            border-radius: 8px; border: none; outline: none;
+            margin-bottom: 12px; text-align: center; user-select: text;
+        }
+
+        .friends-list {
+            flex-grow: 1; overflow-y: auto; background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px; padding: 10px; margin-bottom: 15px;
+        }
+
+        .no-friend-text { text-align: center; color: #aaa; margin-top: 50px; font-style: italic; }
+
+        .friend-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 10px; background: rgba(255, 255, 255, 0.08);
+            margin-bottom: 8px; border-radius: 6px;
+        }
+
+        .friend-info { display: flex; align-items: center; gap: 10px; }
+
+        .friend-avatar-small {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid #00ffcc;
+            object-fit: cover;
+            cursor: pointer;
+            background: #222;
+        }
+
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+        .status-dot.online { background-color: #00cc44; box-shadow: 0 0 8px #00cc44; }
+        .status-dot.offline { background-color: #888888; }
+
+        .friend-menu-container { position: relative; }
+        .three-dots-btn {
+            background: transparent; border: none; color: white;
+            font-size: 1.2rem; cursor: pointer; padding: 2px 8px; border-radius: 4px;
+        }
+        .three-dots-btn:hover { background: rgba(255,255,255,0.2); }
+        
+        .dropdown-menu {
+            display: none; position: absolute; right: 0; top: 25px;
+            background: #222; border: 1px solid #444; border-radius: 6px;
+            z-index: 15; min-width: 120px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .dropdown-menu button {
+            width: 100%; padding: 8px 12px; background: transparent;
+            border: none; color: white; text-align: left; cursor: pointer; font-size: 0.9rem;
+        }
+        .dropdown-menu button:hover { background: #444; }
+        .dropdown-menu button.delete-btn { color: #ff4d4d; }
+
+        #zoom-avatar-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); display: none; justify-content: center;
+            align-items: center; z-index: 50; overflow: hidden;
+        }
+        #zoom-avatar-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+        #zoomed-avatar-img {
+            max-width: 80vw;
+            max-height: 80vh;
+            border-radius: 12px;
+            border: 3px solid #00ffcc;
+            box-shadow: 0 0 30px rgba(0,255,204,0.5);
+            transition: transform 0.1s ease;
+            object-fit: contain;
+        }
+        .close-zoom-btn {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            z-index: 10;
+        }
+        .close-zoom-btn:hover { background: rgba(255,255,255,0.4); }
+
+        #custom-alert-modal {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); display: none; justify-content: center;
+            align-items: center; z-index: 35; color: white;
+        }
+        .custom-alert-box {
+            background: #111e38; padding: 25px 35px; border-radius: 12px;
+            text-align: center; width: 350px; border: 2px solid #00ffcc;
+            box-shadow: 0 0 20px rgba(0,255,204,0.4);
+        }
+        .custom-alert-box p { font-size: 1.1rem; margin-bottom: 20px; }
+
+        #invite-friends-modal {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75); display: none; justify-content: center;
+            align-items: center; z-index: 30; color: white;
+        }
+        .invite-friends-box {
+            background: #0a1f1c; padding: 25px; border-radius: 15px; width: 450px; height: 500px;
+            display: flex; flex-direction: column; border: 3px solid #00ffcc;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.6);
+        }
+        .invite-friends-box h2 { text-align: center; margin-bottom: 15px; color: #00ffcc; }
+        .invite-list {
+            flex-grow: 1; overflow-y: auto; background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px; padding: 10px; margin-bottom: 15px; border: 1px solid #00ffcc55;
+        }
+        .invite-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 10px; background: rgba(0, 255, 204, 0.08);
+            margin-bottom: 8px; border-radius: 6px; border: 1px solid rgba(0, 255, 204, 0.2);
+        }
+        .btn-action-invite {
+            background: #00cc44; color: white; border: none; padding: 6px 14px;
+            border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .btn-action-invite.invited {
+            background: #666666; cursor: not-allowed; box-shadow: none;
+        }
+
+        #chat-screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); display: none; justify-content: center;
+            align-items: center; z-index: 20;
+        }
+
+        .chat-box {
+            background: #111; width: 450px; height: 640px; border-radius: 10px;
+            display: flex; flex-direction: column; border: 1px solid #444; color: white;
+        }
+
+        .chat-header {
+            padding: 12px; background: #222; display: flex; justify-content: space-between;
+            align-items: center; border-top-left-radius: 10px; border-top-right-radius: 10px; font-weight: bold;
+        }
+
+        .chat-messages {
+            flex-grow: 1; padding: 15px; overflow-y: auto; display: flex;
+            flex-direction: column; gap: 10px; font-size: 0.95rem;
+        }
+
+        .chat-input-area {
+            display: flex; padding: 10px; background: #222;
+            gap: 5px;
+            position: relative;
+        }
+
+        .chat-input-area input[type="text"] {
+            flex-grow: 1; padding: 8px; border-radius: 4px; border: none; outline: none; user-select: text;
+        }
+
+        .chat-action-btn { cursor: pointer; font-size: 0.75rem; margin-right: 8px; opacity: 0.8; font-weight: normal; }
+        .chat-action-btn:hover { opacity: 1; text-decoration: underline; }
+        .chat-action-btn.delete { color: #ff4d4d; }
+        .chat-action-btn.recall { color: #ffaa00; }
+
+        #emoji-picker {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 10px;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 8px;
+            width: 260px;
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .emoji-item {
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            user-select: none;
+        }
+
+        .emoji-item:hover {
+            background: #444;
+        }
+
+        /* Bàn phím ảo trong chat */
+        #chat-virtual-keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: #181822;
+            padding: 8px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-top: 1px solid #333;
+        }
+        .cvk-row {
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+        }
+        .cvk-key {
+            background: #2a2a3d;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 4px;
+            width: 32px;
+            height: 35px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.05s;
+        }
+        .cvk-key:active {
+            background: #00ffcc;
+            color: #000;
+        }
+        .cvk-key.wide {
+            width: 48px;
+            font-size: 0.7rem;
+            background: #38384f;
+        }
+        .cvk-key.space-key {
+            width: 160px;
+        }
+
+        #lobby-screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #110033, #000022); display: none;
+            flex-direction: column; justify-content: center; align-items: center;
+            z-index: 6; color: white;
+        }
+
+        .lobby-box {
+            background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 15px;
+            text-align: center; width: 450px; box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            max-height: 90vh; display: flex; flex-direction: column;
+        }
+
+        .lobby-box input {
+            width: 100%; padding: 12px; font-size: 1.2rem; margin: 10px 0;
+            border-radius: 8px; border: none; text-align: center; outline: none; user-select: text;
+        }
+
+        .active-friends-container {
+            margin-top: 20px; background: rgba(0,0,0,0.3); border-radius: 10px;
+            padding: 10px; text-align: left; flex-grow: 1; overflow-y: auto; min-height: 120px;
+        }
+
+        .active-friend-row {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.05); padding: 8px 10px; border-radius: 6px; margin-bottom: 6px;
+        }
+
+        .btn-join-friend {
+            background: #00cc44; color: white; border: none; padding: 5px 12px;
+            border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1.1rem;
+        }
+        .btn-join-friend:hover { background: #00ff55; box-shadow: 0 0 10px #00ff55; }
+
+        #game-screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; overflow: hidden; background-size: contain; background-repeat: no-repeat; background-position: center; background-color: #000;
+        }
+
+        #hud {
+            position: absolute; top: 20px; left: 20px; font-size: 1.5rem; color: white;
+            font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); z-index: 2;
+            display: flex; align-items: center; gap: 15px;
+        }
+
+        #esc-corner-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ffcc;
+            border-radius: 8px;
+            color: #00ffcc;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 11;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+            transition: 0.2s;
+        }
+        #esc-corner-btn:hover {
+            background: rgba(0, 255, 204, 0.2);
+            transform: scale(1.05);
+        }
+
+        #multiplayer-scoreboard {
+            position: absolute; top: 85px; right: 25px; background: rgba(0, 0, 0, 0.75);
+            padding: 15px; border-radius: 10px; color: white; min-width: 240px; max-width: 300px;
+            z-index: 10; display: none; box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        #multiplayer-scoreboard h3 {
+            margin-bottom: 8px; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 5px;
+        }
+
+        #live-scores { margin-top: 8px; max-height: 200px; overflow-y: auto; }
+        .score-row {
+            display: flex; justify-content: space-between; margin: 6px 0; font-size: 0.95rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.15); padding-bottom: 3px;
+        }
+
+        #pause-screen, #gameover-screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); display: none; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 20; color: white;
+        }
+
+        #pause-screen h2, #gameover-screen h2 { font-size: 3rem; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
+
+        .pause-btn {
+            padding: 15px 35px; font-size: 1.3rem; font-weight: bold; background: #003399;
+            color: white; border: 4px solid transparent; border-radius: 10px; cursor: pointer; margin: 10px; width: 280px;
+            transition: 0.2s;
+        }
+        .pause-btn:hover { background: #0044cc; transform: scale(1.05); }
+
+        .meteor {
+            position: absolute; width: 60px; height: 60px; background: radial-gradient(circle, #ff6600, #992200);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white;
+            font-size: 1.5rem; font-weight: bold; box-shadow: 0 0 15px #ff3300; transform: translate(-50%, -50%);
+        }
+
+        .explosion {
+            position: absolute; width: 80px; height: 80px; background: radial-gradient(circle, #ffff00, #ff0000, transparent);
+            border-radius: 50%; transform: translate(-50%, -50%); animation: explode 0.3s forwards; z-index: 3;
+        }
+
+        @keyframes explode {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+        }
+
+        #virtual-keyboard-container {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            z-index: 5;
+        }
+
+        #toggle-kb-btn {
+            background: rgba(0, 85, 255, 0.85);
+            color: #00ffcc;
+            border: 2px solid #00ffcc;
+            border-radius: 6px;
+            padding: 4px 14px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            transition: 0.1s;
+        }
+        #toggle-kb-btn:hover {
+            background: rgba(0, 136, 255, 1);
+        }
+
+        #virtual-keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: rgba(0, 0, 0, 0.65);
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 204, 0.4);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+        .vk-row {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+        }
+        .vk-key {
+            background: rgba(30, 30, 45, 0.9);
+            color: white;
+            border: 1px solid #777;
+            border-radius: 5px;
+            width: 36px;
+            height: 38px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            transition: 0.08s;
+        }
+        .vk-key:hover {
+            background: rgba(60, 60, 90, 1);
+            border-color: #00ffcc;
+            transform: scale(1.05);
+        }
+        .vk-key:active {
+            background: #00ffcc;
+            color: #000;
+            transform: scale(0.92);
+        }
+        .vk-key.wide {
+            width: 55px;
+            font-size: 0.75rem;
+            background: rgba(50, 50, 70, 0.9);
+        }
+
+        /* ===== MICROFILUX SECURITY SHIELD ===== */
+        #security-lock-screen {
+            position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
+            background: rgba(0,0,0,.97); z-index: 999999; color: white; text-align: center;
+            padding: 24px;
+        }
+        #security-lock-screen .security-lock-box {
+            width: min(560px, 95vw); padding: 30px; border-radius: 18px;
+            border: 2px solid #ff3333; background: linear-gradient(135deg,#180808,#090909);
+            box-shadow: 0 0 40px rgba(255,0,0,.35);
+        }
+        #security-lock-screen h2 { color:#ff4444; margin-bottom:14px; }
+        #security-lock-screen p { color:#ddd; line-height:1.6; white-space:pre-line; }
+
+    
+        /* Nitro Security Status - bottom-left */
+        #nitro-security-status {
+            position: fixed;
+            right: 12px;
+            bottom: 12px;
+            left: auto;
+            z-index: 99999;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 8px;
+            padding: 7px 10px;
+            border: 2px solid #20e0c0;
+            border-radius: 9px;
+            background: rgba(10,10,16,.90);
+            box-shadow: 0 0 10px rgba(32,224,192,.28);
+            backdrop-filter: blur(6px);
+            font: 700 11px/1.25 Arial, sans-serif;
+            letter-spacing: .2px;
+            pointer-events: auto;
+            user-select: none;
+            transition: width .2s ease, padding .2s ease;
+        }
+
+        #nitro-security-status.collapsed {
+            width: 34px;
+            padding: 5px;
+            gap: 0;
+            overflow: hidden;
+        }
+
+        #nitro-security-status .nitro-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            padding: 0;
+            margin: 0;
+            flex: 0 0 auto;
+            border: 1px solid #20e0c0;
+            border-radius: 5px;
+            background: rgba(32,224,192,.12);
+            color: #66ff99;
+            font: 700 14px/1 Arial, sans-serif;
+            cursor: pointer;
+        }
+
+        #nitro-security-status .nitro-toggle:hover {
+            background: rgba(32,224,192,.3);
+        }
+
+        #nitro-security-status.collapsed .nitro-item:not(:first-of-type) {
+            display: none;
+        }
+
+        #nitro-security-status.collapsed .nitro-toggle {
+            margin: 0;
+        }
+
+        #nitro-security-status.collapsed .nitro-toggle::after {
+            content: '>';
+        }
+
+        #nitro-security-status:not(.collapsed) .nitro-toggle::after {
+            content: '<';
+        }
+
+        #nitro-security-status .nitro-toggle span {
+            display: none;
+        }
+        #nitro-security-status .nitro-title {
+            font-size: 10px;
+            opacity: .85;
+            color: #66ff99;
+            letter-spacing: 1px;
+        }
+        #nitro-security-status .nitro-item {
+            white-space: nowrap;
+        }
+        #nitro-security-status .nitro-ok {
+            color: #66ff99;
+            text-shadow: 0 0 4px rgba(102,255,153,.35);
+        }
+
+    
+    /* =========================================================
+       MOBILE EDITION — iOS / Android phone screens
+       Responsive to the actual phone viewport; no fixed desktop
+       420/450/480px panels overflowing on narrow screens.
+       ========================================================= */
+    html, body {
+        width: 100%;
+        min-width: 0;
+        height: 100%;
+        height: 100dvh;
+        overflow: hidden;
+        overscroll-behavior: none;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    button, input, textarea {
+        touch-action: manipulation;
+    }
+
+    button {
+        appearance: none;
+        -webkit-appearance: none;
+    }
+    
+    #intro-screen,
+    #login-screen, #register-screen,
+    #menu-screen, #friends-screen, #lobby-screen,
+    #game-screen, #pause-screen, #gameover-screen,
+    #settings-modal, #packages-modal, #package-info-modal,
+    #troll-payment-modal, #chat-screen, #custom-alert-modal,
+    #invite-friends-modal, #game-invite-popup-modal,
+    #zoom-avatar-modal, #security-lock-screen {
+        width: 100%;
+        width: 100vw;
+        height: 100%;
+        height: 100dvh;
+        min-height: 0;
+    }
+
+    .login-box,
+    .settings-box,
+    .friends-box,
+    .invite-friends-box,
+    .lobby-box,
+    .chat-box,
+    .custom-alert-box {
+        width: min(92vw, 440px);
+        max-width: 92vw;
+        max-height: calc(100dvh - 24px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .login-box {
+        padding: 20px;
+    }
+
+    .settings-box {
+        padding: 18px;
+    }
+
+    .friends-box {
+        width: min(94vw, 480px);
+        height: min(78dvh, 540px);
+        padding: 16px;
+    }
+
+    .invite-friends-box {
+        width: min(94vw, 450px);
+        height: min(78dvh, 500px);
+        padding: 16px;
+    }
+
+    .lobby-box {
+        width: min(94vw, 450px);
+        padding: 18px;
+    }
+
+    .chat-box {
+        width: min(96vw, 450px);
+        height: min(92dvh, 640px);
+        max-height: 92dvh;
+    }
+
+    .custom-alert-box {
+        width: min(90vw, 350px);
+        padding: 20px;
+    }
+
+    #intro-screen .title {
+        font-size: clamp(2rem, 9vw, 3.5rem);
+        text-align: center;
+        padding: 0 20px;
+    }
+
+    #intro-screen .studio {
+        font-size: clamp(.8rem, 3.5vw, 1.2rem);
+        text-align: center;
+    }
+
+    h1 {
+        font-size: clamp(2rem, 9vw, 3.5rem);
+        text-align: center;
+        line-height: 1.05;
+        margin-bottom: 14px;
+        padding: 0 12px;
+    }
+
+    .level-container {
+        width: min(94vw, 500px);
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 7px;
+        margin-bottom: 12px;
+    }
+
+    .level-btn {
+        min-height: 44px;
+        padding: 9px 12px;
+        font-size: .95rem;
+    }
+
+    .main-btn {
+        width: min(84vw, 360px);
+        min-height: 48px;
+        padding: 11px 18px;
+        font-size: 1.1rem;
+        margin: 5px;
+    }
+
+    .settings-icon-btn {
+        top: max(12px, env(safe-area-inset-top));
+        right: max(12px, env(safe-area-inset-right));
+        width: 46px;
+        height: 46px;
+    }
+
+    #menu-fps {
+        top: max(12px, env(safe-area-inset-top));
+        left: max(12px, env(safe-area-inset-left));
+        font-size: .85rem;
+        padding: 4px 8px;
+    }
+
+    #menu-packages-btn {
+        top: max(12px, env(safe-area-inset-top));
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: .78rem;
+        padding: 5px 8px;
+        white-space: nowrap;
+    }
+
+    #menu-packages-btn:hover {
+        transform: translateX(-50%);
+    }
+
+    #hud {
+        top: max(10px, env(safe-area-inset-top));
+        left: max(10px, env(safe-area-inset-left));
+        font-size: clamp(.9rem, 4vw, 1.2rem);
+        gap: 8px;
+        flex-wrap: wrap;
+        max-width: 70vw;
+    }
+
+    #esc-corner-btn {
+        top: max(10px, env(safe-area-inset-top));
+        right: max(10px, env(safe-area-inset-right));
+        width: 44px;
+        height: 44px;
+    }
+
+    #multiplayer-scoreboard {
+        top: 62px;
+        right: max(10px, env(safe-area-inset-right));
+        min-width: 0;
+        width: min(48vw, 250px);
+        max-width: 48vw;
+        padding: 9px;
+        font-size: .8rem;
+    }
+
+    #live-scores {
+        max-height: 28dvh;
+    }
+
+    .score-row {
+        font-size: .78rem;
+        margin: 4px 0;
+    }
+
+    .pause-btn {
+        width: min(82vw, 280px);
+        min-height: 48px;
+        padding: 11px 16px;
+        font-size: 1.05rem;
+        margin: 6px;
+    }
+
+    #pause-screen h2,
+    #gameover-screen h2 {
+        font-size: clamp(2rem, 10vw, 3rem);
+        margin-bottom: 12px;
+        text-align: center;
+    }
+
+    #gameover-screen p {
+        width: 88vw;
+        text-align: center;
+        font-size: 1rem !important;
+        line-height: 1.5;
+    }
+
+    .meteor {
+        width: clamp(48px, 14vw, 60px);
+        height: clamp(48px, 14vw, 60px);
+        font-size: clamp(1.15rem, 5vw, 1.5rem);
+    }
+
+    .explosion {
+        width: clamp(65px, 20vw, 80px);
+        height: clamp(65px, 20vw, 80px);
+    }
+
+    #virtual-keyboard-container {
+        bottom: max(8px, env(safe-area-inset-bottom));
+        width: 100%;
+        max-width: 100%;
+        padding: 0 4px;
+        gap: 3px;
+    }
+
+    #virtual-keyboard {
+        width: min(98vw, 620px);
+        max-width: 98vw;
+        padding: 5px 4px;
+        gap: 3px;
+        border-radius: 10px;
+    }
+
+    .vk-row {
+        width: 100%;
+        gap: 2px;
+    }
+
+    .vk-key {
+        flex: 1 1 0;
+        min-width: 0;
+        width: auto;
+        height: clamp(34px, 8.5vw, 42px);
+        min-height: 34px;
+        font-size: clamp(.7rem, 3.2vw, .9rem);
+        padding: 0;
+    }
+
+    .vk-key.wide {
+        flex: 1.35 1 0;
+        width: auto;
+        font-size: clamp(.6rem, 2.5vw, .75rem);
+    }
+
+    #toggle-kb-btn {
+        min-height: 34px;
+        padding: 4px 12px;
+        font-size: .78rem;
+    }
+
+    #chat-virtual-keyboard {
+        padding: 5px;
+        gap: 3px;
+    }
+
+    .cvk-row {
+        gap: 2px;
+    }
+
+    .cvk-key {
+        flex: 1 1 0;
+        min-width: 0;
+        width: auto;
+        height: clamp(32px, 8vw, 38px);
+        font-size: clamp(.68rem, 3vw, .85rem);
+        padding: 0;
+    }
+
+    .cvk-key.wide {
+        flex: 1.35 1 0;
+        width: auto;
+    }
+
+    .cvk-key.space-key {
+        flex: 3 1 0;
+        width: auto;
+    }
+
+    #emoji-picker {
+        width: min(78vw, 260px);
+        max-height: 24dvh;
+    }
+
+    .chat-input-area {
+        padding: 6px;
+        gap: 3px;
+        padding-bottom: max(6px, env(safe-area-inset-bottom));
+    }
+
+    .chat-input-area input[type="text"] {
+        min-width: 0;
+        font-size: 16px; /* prevents iOS Safari auto-zoom */
+    }
+
+    .chat-action-btn {
+        font-size: .68rem;
+    }
+
+    .friends-search-input,
+    .lobby-box input,
+    .login-box input {
+        font-size: 16px; /* prevents iOS Safari auto-zoom */
+    }
+
+    .security-lock-box {
+        width: min(92vw, 560px) !important;
+        padding: 20px !important;
+    }
+
+    #nitro-security-status {
+        right: max(7px, env(safe-area-inset-right));
+        bottom: max(7px, env(safe-area-inset-bottom));
+        max-width: calc(100vw - 14px);
+        font-size: 9px;
+    }
+
+    /* Portrait phones: keep every major panel inside the physical screen. */
+    @media (orientation: portrait) and (max-width: 600px) {
+        #menu-screen {
+            padding-top: 52px;
+            padding-bottom: 20px;
+        }
+
+        #menu-screen .level-container {
+            max-width: 92vw;
+        }
+
+        .settings-box,
+        .login-box {
+            max-height: calc(100dvh - 16px);
+        }
+
+        #virtual-keyboard {
+            transform: none;
+        }
+    }
+
+    /* Landscape phones: make use of the wider viewport while staying compact. */
+    @media (orientation: landscape) and (max-height: 600px) {
+        #menu-screen {
+            padding: 12px 0;
+            overflow-y: auto;
+            justify-content: flex-start;
+        }
+
+        h1 {
+            font-size: clamp(1.7rem, 7vh, 2.5rem);
+            margin-bottom: 8px;
+        }
+
+        .level-container {
+            margin-bottom: 6px;
+        }
+
+        .main-btn {
+            min-height: 40px;
+            padding: 7px 16px;
+            margin: 3px;
+        }
+
+        .login-box,
+        .settings-box,
+        .friends-box,
+        .invite-friends-box,
+        .lobby-box {
+            max-height: 96dvh;
+        }
+
+        #virtual-keyboard-container {
+            bottom: 3px;
+        }
+
+        .vk-key {
+            height: clamp(30px, 9vh, 38px);
+        }
+    }
+
+    </style>
+
+<script>
+/* Mobile viewport helpers for iOS/Android webviews and browsers. */
+(function () {
+    function syncMobileViewport() {
+        document.documentElement.style.setProperty(
+            '--app-vh',
+            (window.visualViewport ? window.visualViewport.height : window.innerHeight) + 'px'
+        );
+    }
+    syncMobileViewport();
+    window.addEventListener('resize', syncMobileViewport, {passive:true});
+    window.addEventListener('orientationchange', function () {
+        setTimeout(syncMobileViewport, 250);
+    }, {passive:true});
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', syncMobileViewport, {passive:true});
+    }
+})();
+</script>
+
+</head>
+<body>
+
+        <div id="nitro-security-status" class="collapsed" aria-label="Nitro Security">
+            <button class="nitro-toggle" type="button" onclick="toggleNitroSecurityStatus()" aria-label="Mở danh sách Anti-Bot"><span></span></button>
+            <div class="nitro-item nitro-ok">✓ Anti-Bot: ACTIVE</div>
+            <div class="nitro-item nitro-ok">✓ Anti-Spam Chat: ACTIVE</div>
+            <div class="nitro-item nitro-ok">✓ Anti-Score: ACTIVE</div>
+            <div class="nitro-item nitro-ok">✓ Anti-Registration Abuse: ACTIVE</div>
+            <div class="nitro-item nitro-ok">✓ Anti-Spam Room Invites: ACTIVE</div>
+        </div>
+
+    <div id="security-lock-screen">
+        <div class="security-lock-box">
+            <h2>🛡️ SECURITY SHIELD</h2>
+            <p id="security-lock-message">Hoạt động bất thường đã bị phát hiện.</p>
+        </div>
+    </div>
+
+    <div id="intro-screen">
+        <div class="title">TUX TYPING 2 PRO</div>
+        <div class="studio">Made by MicroFILUX Studio</div>
+    </div>
+
+    <!-- MÀN HÌNH ĐĂNG NHẬP RIÊNG BIỆT -->
+    <div id="login-screen">
+        <div class="login-box">
+            <h2>ĐĂNG NHẬP</h2>
+            <p class="security-notice">1 tip : bạn có thể sử dụng email giả và mật khẩu giả thì có thể vào được game nhưng dùng email thật và mật khẩu thật thì tài khoản game sẽ an toàn hơn</p>
+
+            <label for="login-input-id">Username hoặc Email</label>
+            <input type="text" id="login-input-id" placeholder="Nhập username hoặc email...">
+
+            <label for="login-input-password">Mật khẩu</label>
+            <div class="input-group">
+                <input type="password" id="login-input-password" placeholder="Nhập mật khẩu...">
+                <span class="eye-btn" onclick="togglePasswordVisibility('login-input-password', this)">🔒</span>
+            </div>
+
+            <label for="login-input-playername">Tên người chơi</label>
+            <input type="text" id="login-input-playername" placeholder="Nhập tên người chơi...">
+
+            <label for="login-input-friendusername">Tên người dùng (để kết bạn)</label>
+            <input type="text" id="login-input-friendusername" placeholder="Nhập tên người dùng kết bạn...">
+            
+            <button class="main-btn" onclick="submitLogin()" style="width: 100%; margin-top: 15px;">ĐĂNG NHẬP</button>
+            <div class="switch-auth-text">Chưa có tài khoản? <span onclick="showRegisterScreen()">Đăng ký ngay</span></div>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH ĐĂNG KÝ RIÊNG BIỆT -->
+    <div id="register-screen">
+        <div class="login-box">
+            <h2>ĐĂNG KÝ TÀI KHOẢN</h2>
+            <p class="security-notice">1 tip : bạn có thể sử dụng email giả và mật khẩu giả thì có thể vào được game nhưng dùng email thật và mật khẩu thật thì tài khoản game sẽ an toàn hơn</p>
+
+            <label for="reg-input-email">Email (Bắt buộc)</label>
+            <input type="email" id="reg-input-email" placeholder="Nhập email...">
+
+            <label for="reg-input-password">Mật khẩu (Bắt buộc)</label>
+            <div class="input-group">
+                <input type="password" id="reg-input-password" placeholder="Nhập mật khẩu...">
+                <span class="eye-btn" onclick="togglePasswordVisibility('reg-input-password', this)">🔒</span>
+            </div>
+
+            <label for="reg-input-displayname">Display Name (Tên hiển thị) - Bắt buộc</label>
+            <input type="text" id="reg-input-displayname" placeholder="Nhập tên hiển thị..." maxlength="20">
+            
+            <label for="reg-input-username">Username - Bắt buộc</label>
+            <input type="text" id="reg-input-username" placeholder="Nhập username..." maxlength="15">
+            
+            <button class="main-btn" onclick="submitRegister()" style="width: 100%; margin-top: 15px; background: #0055ff;">ĐĂNG KÝ</button>
+            <div class="switch-auth-text">Đã có tài khoản? <span onclick="showLoginScreen()">Đăng nhập ngay</span></div>
+        </div>
+    </div>
+
+    <div id="menu-screen">
+        <div id="menu-fps" class="fps-box">FPS: <span id="menu-fps-counter">0</span></div>
+        <button id="menu-packages-btn" class="fps-box" onclick="openPackagesModal()">🎁 Các Gói Người Dùng</button>
+
+        <button class="settings-icon-btn" onclick="openSettingsModal()" title="Cài đặt người dùng">⚙️</button>
+
+        <h1>TUX TYPING 2 PRO</h1>
+        <div class="level-container">
+            <button class="level-btn" onclick="selectLevel(1, this)">Level 1</button>
+            <button class="level-btn selected" onclick="selectLevel(2, this)">Level 2</button>
+            <button class="level-btn" onclick="selectLevel(3, this)">Level 3</button>
+            <button class="level-btn" onclick="selectLevel(4, this)">Level 4</button>
+            <button class="level-btn" onclick="selectLevel(5, this)">Level 5</button>
+        </div>
+        <button class="main-btn" onclick="startSinglePlayer()">CHƠI ĐƠN</button>
+        <button class="main-btn secondary" onclick="openLobby()">PHÒNG MULTIPLAYER</button>
+        <button class="main-btn info" onclick="openFriendsScreen()" style="position:relative;">
+            BẠN BÈ 
+            <span id="main-menu-req-badge" style="background:#ff3333; color:white; border-radius:10px; padding:2px 8px; font-size:0.8rem; margin-left:6px; display:none;">0</span>
+        </button>
+    </div>
+
+    <div id="packages-modal">
+        <div class="settings-box">
+            <h2>GÓI NGƯỜI DÙNG</h2>
+            <div style="display:flex; gap:10px; margin-bottom:15px;">
+                <button class="level-btn" style="flex:1; background:#32CD32; border-color:#228B22; font-size: 1.1rem;" onclick="viewPackageInfo('plus')">Gói Plus</button>
+                <button class="level-btn" style="flex:1; background:#ce6910; border-color:#c78c3e; font-size: 1.1rem; color: #000;" onclick="viewPackageInfo('premium')">Gói Premium</button>
+            </div>
+            <p id="current-sub-text" style="color: #00ffcc; font-style: italic; margin-bottom: 15px; font-size: 0.95rem;">Bạn chưa đăng ký gói nào.</p>
+            <button id="cancel-sub-btn" class="level-btn" style="background:#cc0000; border-color:#ff1a1a; display:none; width: 100%; margin-bottom: 10px;" onclick="cancelPackage()">Hủy gói đang dùng</button>
+            <button class="level-btn" onclick="closePackagesModal()" style="width: 100%;">Đóng</button>
+        </div>
+    </div>
+
+    <div id="package-info-modal">
+        <div class="settings-box" style="width: 400px;">
+            <h2 id="pkg-info-title">Gói ...</h2>
+            <div id="pkg-info-desc" style="text-align: left; margin-bottom: 20px; font-size: 1rem; color: #ccffff; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; line-height: 1.6;">
+            </div>
+            <button id="pkg-subscribe-btn" class="main-btn" style="width: 100%; margin: 0 0 10px 0; background: #00cc44;" onclick="subscribePackage()">Đăng ký (Dùng 30 giây)</button>
+            <button class="level-btn" onclick="closePackageInfo()" style="width: 100%;">Quay lại</button>
+        </div>
+    </div>
+
+    <div id="troll-payment-modal">
+        <div class="settings-box" style="border: 2px solid #ff0000; box-shadow: 0 0 35px rgba(255, 0, 0, 0.6);">
+            <h2 style="color: #ff3333; font-size: 2.2rem; text-shadow: 0 0 10px rgba(255,0,0,0.8);">⚠️ HẾT HẠN</h2>
+            <p id="troll-msg" style="font-size: 1.1rem; margin-bottom: 25px; line-height: 1.5; color: #ffcccc;">Gói của bạn đã hết hạn 30 giây.</p>
+            <button class="main-btn" style="width: 100%; background: #ffaa00; margin: 0 0 10px 0; color: #000;" onclick="payTroll()">Thanh toán ngay</button>
+            <button class="level-btn" onclick="cancelTroll()" style="width: 100%; background: #555; border-color: #777;">Hủy gia hạn (Hủy gói)</button>
+        </div>
+    </div>
+
+    <div id="settings-modal">
+        <div class="settings-box">
+            <h2>CÀI ĐẶT TÀI KHOẢN</h2>
+            
+            <div class="settings-avatar-container">
+                <div class="avatar-preview-wrap" onclick="zoomImage(currentAvatarUrl)">
+                    <img id="settings-avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" alt="Avatar">
+                </div>
+                <input type="file" id="avatar-file-input" accept="image/*" style="display:none;" onchange="previewNewAvatar(event)">
+                <button class="level-btn" onclick="document.getElementById('avatar-file-input').click()" style="background:#0055ff; border-color:#0088ff; margin-bottom: 8px;">📷 Đổi Ảnh Avatar</button>
+                <button id="btn-save-avatar" class="level-btn" onclick="saveNewAvatar()" style="background:#00cc44; border-color:#00ff55; display:none; width: 100%;">Lưu ảnh đại diện của bạn</button>
+            </div>
+
+            <div class="settings-info-row">
+                <span>Display Name</span>
+                <b id="settings-display-name">-</b>
+            </div>
+
+            <div class="settings-info-row">
+                <span>Username</span>
+                <b id="settings-display-username">-</b>
+            </div>
+
+            <div class="settings-info-row">
+                <span>Email</span>
+                <b id="settings-display-email">••••••••••••</b>
+                <span class="settings-eye-btn" id="settings-email-eye" onclick="toggleSettingsEmailVisibility()">🔒</span>
+            </div>
+
+            <div class="settings-info-row">
+                <span>Mật khẩu</span>
+                <b id="settings-display-pass">••••••••••••</b>
+                <span class="settings-eye-btn" id="settings-pass-eye" onclick="toggleSettingsPassVisibility()">🔒</span>
+            </div>
+            
+            <div class="settings-info-row">
+                <span>Mô tả bản thân (Tối đa 300 kí tự)</span>
+                <textarea id="settings-description-input" maxlength="300" style="width:100%; height:75px; background:rgba(255,255,255,0.1); color:white; border:1px solid #00ffcc; border-radius:5px; padding:8px; outline:none; resize:none; margin-top:5px;" placeholder="Nhập vài dòng mô tả về bạn..."></textarea>
+                <button class="level-btn" onclick="saveDescription()" style="width:100%; margin-top:8px; padding:6px; background:#0099ff; border-color:#007acc; font-size: 0.9rem;">Lưu mô tả</button>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <button class="level-btn" onclick="logoutAccount()" style="background:#ff6600; border-color:#ff8533;">Gỡ tài khoản (Đăng xuất)</button>
+                <button class="level-btn" onclick="deleteAccountPermanently()" style="background:#cc0000; border-color:#ff1a1a;">Xóa tài khoản vĩnh viễn</button>
+                <button class="level-btn" onclick="closeSettingsModal()" style="margin-top: 5px;">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="zoom-avatar-modal" onclick="closeZoomModal(event)">
+        <button class="close-zoom-btn" onclick="closeZoomModalBtn()">×</button>
+        <div id="zoom-avatar-container">
+            <img id="zoomed-avatar-img" src="" alt="Zoomed Avatar">
+        </div>
+    </div>
+
+    <div id="friends-screen">
+        <div class="friends-box">
+            <h2>QUẢN LÝ BẠN BÈ</h2>
+            <input type="text" id="friend-search" class="friends-search-input" placeholder="Nhập username, ấn Enter gửi kết bạn..." onkeypress="handleFriendSearch(event)">
+            
+            <div style="display:flex; gap:10px; margin-bottom:12px;">
+                <button id="tab-btn-friends" class="level-btn selected" style="flex:1; padding:8px; font-size:0.95rem;" onclick="switchFriendsTab('friends')">Danh sách bạn bè</button>
+                <button id="tab-btn-requests" class="level-btn" style="flex:1; padding:8px; font-size:0.95rem;" onclick="switchFriendsTab('requests')">
+                    Lời mời kết bạn
+                    <span id="req-count" style="background:#ff3333; color:white; border-radius:10px; padding:1px 6px; font-size:0.75rem; margin-left:4px; display:none;">0</span>
+                </button>
+            </div>
+
+            <div class="friends-list" id="friends-list-container">
+                <div class="no-friend-text">Bạn chưa có bạn bè nào</div>
+            </div>
+            <button class="level-btn" onclick="closeFriendsScreen()" style="width: 100%;">Quay lại Menu</button>
+        </div>
+    </div>
+
+    <div id="custom-alert-modal">
+        <div class="custom-alert-box">
+            <p id="custom-alert-text">Gửi lời kết bạn thành công!</p>
+            <button class="level-btn" onclick="closeCustomAlert()" style="width: 100%; background:#00cc44; border-color:#00ff55;">OK</button>
+        </div>
+    </div>
+
+    <div id="invite-friends-modal">
+        <div class="invite-friends-box">
+            <h2>MỜI BẠN BÈ VÀO PHÒNG</h2>
+            <div class="invite-list" id="invite-friends-list-container">
+                <div class="no-friend-text">Không có bạn bè nào</div>
+            </div>
+            <button class="level-btn" onclick="closeInviteFriendsModal()" style="width: 100%; background:#00cc44; border-color:#00ff55;">Đóng</button>
+        </div>
+    </div>
+
+    <div id="game-invite-popup-modal" style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:40; color:white;">
+        <div class="custom-alert-box">
+            <p id="game-invite-popup-text">Bạn của bạn đã mời bạn vào chơi!</p>
+            <div style="display:flex; gap:10px;">
+                <button class="level-btn" onclick="acceptGameInvite()" style="flex:1; background:#00cc44; border-color:#00ff55;">Vào chơi</button>
+                <button class="level-btn" onclick="closeGameInvitePopup()" style="flex:1; background:#cc3333; border-color:#ff4d4d;">Từ chối</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="chat-screen">
+        <div class="chat-box">
+            <div class="chat-header">
+                <span id="chat-with-title">Trò chuyện</span>
+                <button onclick="closeChat()" style="background:transparent; border:none; color:white; font-size:1.2rem; cursor:pointer;">✕</button>
+            </div>
+            <div class="chat-messages" id="chat-messages-container"></div>
+            
+            <div class="chat-input-area">
+                <input type="file" id="chat-image-input" accept="image/*" style="display:none;" onchange="sendImageMessage(event)">
+                <button class="level-btn" onclick="document.getElementById('chat-image-input').click()" title="Gửi ảnh" style="padding: 8px 12px; font-size: 1rem;">📷</button>
+                <button class="level-btn" onclick="toggleEmojiPicker()" title="Biểu tượng cảm xúc" style="padding: 8px 12px; font-size: 1rem; margin-left: 5px;">😀</button>
+                <input type="text" id="chat-input-msg" maxlength="300" placeholder="Nhập tin nhắn (tối đa 300 ký tự)..." onkeypress="handleChatKey(event)">
+                <button class="level-btn" onclick="sendChatMessage()" style="padding: 8px 15px;">Gửi</button>
+
+                <div id="emoji-picker"></div>
+            </div>
+
+            <div id="chat-virtual-keyboard">
+                <div class="cvk-row">
+                    <button class="cvk-key" onclick="handleChatVirtualKey('q')">q</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('w')">w</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('e')">e</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('r')">r</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('t')">t</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('y')">y</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('u')">u</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('i')">i</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('o')">o</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('p')">p</button>
+                </div>
+                <div class="cvk-row">
+                    <button class="cvk-key" onclick="handleChatVirtualKey('a')">a</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('s')">s</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('d')">d</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('f')">f</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('g')">g</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('h')">h</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('j')">j</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('k')">k</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('l')">l</button>
+                </div>
+                <div class="cvk-row">
+                    <button class="cvk-key wide" onclick="handleChatVirtualKey('UP')">⇧</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('z')">z</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('x')">x</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('c')">c</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('v')">v</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('b')">b</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('n')">n</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey('m')">m</button>
+                    <button class="cvk-key wide" onclick="handleChatVirtualKey('DEL')">⌫</button>
+                </div>
+                <div class="cvk-row">
+                    <button class="cvk-key" onclick="handleChatVirtualKey('.')">.</button>
+                    <button class="cvk-key" onclick="handleChatVirtualKey(',')">,</button>
+                    <button class="cvk-key space-key" onclick="handleChatVirtualKey('SPACE')">Space</button>
+                    <button class="cvk-key" onclick="sendChatMessage()">↵</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lobby-screen">
+        <div class="lobby-box">
+            <h2>PHÒNG MULTIPLAYER</h2>
+            <p id="welcome-user-info" style="margin-bottom: 5px; font-size: 0.9rem; color: #aaddff;"></p>
+            <input type="text" id="room-code" placeholder="Mã phòng (Ví dụ: phong123)">
+            
+            <div style="display:flex; gap: 10px; margin-top:10px;">
+                <button class="main-btn" onclick="createRoom()" style="flex:1; margin:0; padding: 12px 10px;">Tạo/Vào Phòng</button>
+            </div>
+            
+            <div class="active-friends-container">
+                <h3 style="font-size: 1rem; border-bottom: 1px solid #555; padding-bottom: 5px; margin-bottom: 8px;">Bạn bè đang trong phòng</h3>
+                <div id="active-friends-list">
+                    <div style="font-size: 0.9rem; color:#aaa; font-style:italic;">Không có bạn bè nào đang chơi</div>
+                </div>
+            </div>
+
+            <button class="level-btn" onclick="backToMainMenu()" style="width: 100%; margin-top: 15px;">Quay lại Menu</button>
+        </div>
+    </div>
+
+    <div id="game-screen">
+        <div id="hud">
+            <span>Điểm: <span id="score">0</span></span>
+            <span>|</span>
+            <span>Va chạm: <span id="missed-count">0</span>/5</span>
+            <span>|</span>
+            <span class="fps-box">FPS: <span id="game-fps-counter">0</span></span>
+        </div>
+
+        <button id="esc-corner-btn" onclick="togglePause()">ESC</button>
+
+        <div id="multiplayer-scoreboard">
+            <h3>Bảng Xếp Hạng Phòng</h3>
+            <div id="live-scores"></div>
+        </div>
+
+        <div id="virtual-keyboard-container">
+            <button id="toggle-kb-btn" onclick="toggleVirtualKeyboard()">⌨️ Ẩn bàn phím</button>
+            <div id="virtual-keyboard">
+                <div class="vk-row">
+                    <button class="vk-key" onclick="handleVirtualKey('Q')">Q</button>
+                    <button class="vk-key" onclick="handleVirtualKey('W')">W</button>
+                    <button class="vk-key" onclick="handleVirtualKey('E')">E</button>
+                    <button class="vk-key" onclick="handleVirtualKey('R')">R</button>
+                    <button class="vk-key" onclick="handleVirtualKey('T')">T</button>
+                    <button class="vk-key" onclick="handleVirtualKey('Y')">Y</button>
+                    <button class="vk-key" onclick="handleVirtualKey('U')">U</button>
+                    <button class="vk-key" onclick="handleVirtualKey('I')">I</button>
+                    <button class="vk-key" onclick="handleVirtualKey('O')">O</button>
+                    <button class="vk-key" onclick="handleVirtualKey('P')">P</button>
+                </div>
+                <div class="vk-row">
+                    <button class="vk-key" onclick="handleVirtualKey('A')">A</button>
+                    <button class="vk-key" onclick="handleVirtualKey('S')">S</button>
+                    <button class="vk-key" onclick="handleVirtualKey('D')">D</button>
+                    <button class="vk-key" onclick="handleVirtualKey('F')">F</button>
+                    <button class="vk-key" onclick="handleVirtualKey('G')">G</button>
+                    <button class="vk-key" onclick="handleVirtualKey('H')">H</button>
+                    <button class="vk-key" onclick="handleVirtualKey('J')">J</button>
+                    <button class="vk-key" onclick="handleVirtualKey('K')">K</button>
+                    <button class="vk-key" onclick="handleVirtualKey('L')">L</button>
+                </div>
+                <div class="vk-row">
+                    <button class="vk-key wide" onclick="handleVirtualKey('SHIFT')">Shift</button>
+                    <button class="vk-key" onclick="handleVirtualKey('Z')">Z</button>
+                    <button class="vk-key" onclick="handleVirtualKey('X')">X</button>
+                    <button class="vk-key" onclick="handleVirtualKey('C')">C</button>
+                    <button class="vk-key" onclick="handleVirtualKey('V')">V</button>
+                    <button class="vk-key" onclick="handleVirtualKey('B')">B</button>
+                    <button class="vk-key" onclick="handleVirtualKey('N')">N</button>
+                    <button class="vk-key" onclick="handleVirtualKey('M')">M</button>
+                    <button class="vk-key wide" onclick="handleVirtualKey('SPACE')">Space</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pause-screen">
+        <h2>TẠM DỪNG</h2>
+        <button class="pause-btn" id="btn-invite-multi" onclick="openInviteFriendsModal()" style="display:none;">Mời bạn bè</button>
+        <button class="pause-btn" id="resume-btn" onclick="resumeGame()">Tiếp tục chơi</button>
+        <button class="pause-btn" id="menu-btn" onclick="backToMenu()">Trở về menu chính</button>
+    </div>
+
+    <div id="gameover-screen">
+        <h2 style="color: #ff0000;">GAME OVER</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 25px;">Thiên thạch va chạm đã đạt tối đa 5/5.<br>Điểm số đạt được: <span id="final-score" style="color: #00ffcc; font-weight: bold;">0</span></p>
+        <button class="pause-btn" onclick="restartGame()" style="background: #00cc44;">Chơi lại từ đầu</button>
+        <button class="pause-btn" onclick="backToMenu()" style="background: #cc3333;">Trở về menu chính</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <script>
+        const firebaseConfig = { 
+            apiKey : "AIzaSyC14SIT-0iGSDXqpiCkrf2CRkUwrIb95Rw" , 
+            authDomain : "sever-tux-typing-2-pro.firebaseapp.com" , 
+            databaseURL : "https://sever-tux-typing-2-pro-default-rtdb.asia-southeast1.firebasedatabase.app" , 
+            projectId : "sever-tux-typing-2-pro" , 
+            storageBucket : "sever-tux-typing-2-pro.firebasestorage.app" , 
+            messagingSenderId : "242386571813" , 
+            appId : "1:242386571813:web:114a4b0625059fbe23e5cc" , 
+            measurementId : "G-ZNDEHMY994" 
+        };
+        // SECURITY NOTE: Realtime Database rules must be deployed separately.
+// Do not use .read/.write = true in production.
+// The current legacy login stores passwords in RTDB; migrate to Firebase Authentication
+// before treating the system as production-secure.
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let fpsFrameCount = 0;
+        let fpsLastTime = performance.now();
+        let realFps = 0;
+
+        function calcRealFPS() {
+            const now = performance.now();
+            fpsFrameCount++;
+            if (now - fpsLastTime >= 1000) {
+                realFps = Math.round((fpsFrameCount * 1000) / (now - fpsLastTime));
+                fpsFrameCount = 0;
+                fpsLastTime = now;
+                
+                const menuCounter = document.getElementById('menu-fps-counter');
+                const gameCounter = document.getElementById('game-fps-counter');
+                if (menuCounter) menuCounter.innerText = realFps;
+                if (gameCounter) gameCounter.innerText = realFps;
+            }
+            requestAnimationFrame(calcRealFPS);
+        }
+        requestAnimationFrame(calcRealFPS);
+
+        const backgroundStages = [
+         // 1. Mặt Trời
+         "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://upload.wikimedia.org/wikipedia/commons/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg')",
+
+         // 2. Sao Thủy
+         "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://commons.wikimedia.org/wiki/Special:FilePath/MESSENGER_first_photo_of_unseen_side_of_mercury.jpg')",
+
+         // 3. Sao Kim
+         "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg')",
+
+         // 4. Trái Đất
+         "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg')",
+
+         // 5. Sao Hỏa
+         "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg')",
+
+         // 6. Sao Mộc
+         "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg')",
+
+         // 7. Sao Thổ
+         "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg')",
+
+         // 8. Sao Thiên Vương
+         "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg')",
+
+         // 9. Sao Hải Vương
+         "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://upload.wikimedia.org/wikipedia/commons/6/63/Neptune_-_Voyager_2_%2829347980845%29_flatten_crop.jpg')",
+
+         // 10. Sao Diêm Vương
+         "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://commons.wikimedia.org/wiki/Special:FilePath/Nh-pluto-in-true-color_2x_JPEG-edit.jpg')"
+        ];
+
+        let selectedLevel = 1;
+
+        // Hành tinh hiện tại
+        let currentStage = 0;
+
+        let score = 0;
+        let missedCount = 0;
+        const maxMissed = 5;
+        let meteors = [];
+        let gameRunning = false;
+        let isPaused = false;
+        let spawnInterval = null;
+        let gameLoopInterval = null;
+
+        let userEmail = "";
+        let userPassword = "";
+        let displayName = "";
+        let username = "";
+        let playerName = "";
+        let friendUsername = "";
+        let playerUuid = "";
+        let userDescription = "";
+        let currentAvatarUrl = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+        let tempSelectedAvatar = null;
+        let currentZoomScale = 1;
+
+        let isSettingsEmailVisible = false;
+        let isSettingsPassVisible = false;
+
+        let isMultiplayer = false;
+        let isHost = false;
+        let currentRoomCode = "";
+        let activeChatFriendId = null;
+        let pendingInviteRoomCode = "";
+
+        let currentFriendsTab = 'friends';
+        let cachedFriendSnap = null;
+        let cachedRequestsSnap = null;
+        let chatCapsLock = false;
+
+        const speeds = { 1: 1, 2: 2, 3: 3.5, 4: 5, 5: 7.5 };
+
+        let currentPackage = null;
+        let packageTimer = null;
+        let viewingPackage = null;
+
+        const emojiList = [
+         // --- Smileys & Emotions ---
+         "😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃", "", "😉", "😊", "😇",
+         "🥰", "😍", "🤩", "😘", "😗", "😚", "😙", "", "😋", "😛", "😜", "🤪", "😝", "🤑",
+         "🤗", "🤭", "", "", "🤫", "🤔", "", "🤐", "🤨", "😐", "😑", "😶", "", "😏",
+         "😒", "🙄", "😬", "🤥", "", "😌", "😔", "😪", "🤤", "😴", "😷", "🤒", "🤕", "🤢",
+         "🤮", "🤧", "🥵", "🥶", "🥴", "😵", "😵‍💫", "🤯", "🤠", "🥳", "", "😎", "🤓", "🧐",
+         "😕", "", "😟", "🙁", "☹️", "😮", "😯", "😲", "😳", "🥺", "", "😦", "😧", "😨",
+         "😰", "😥", "😢", "😭", "😱", "😖", "😣", "😞", "😓", "😩", "😫", "🥱", "😤", "😡",
+         "😠", "🤬", "😈", "👿", "💀", "☠️", "💩", "🤡", "👹", "👺", "👻", "👽", "👾", "🤖",
+         "😺", "😸", "😹", "😻", "😼", "😽", "🙀", "😿", "😾", "🙈", "🙉", "🙊", "💋", "💌",
+         "💘", "💝", "💖", "💗", "💓", "💞", "💕", "💟", "❣️", "💔", "❤️‍🔥", "❤️‍🩹", "❤️", "",
+         "🧡", "💛", "💚", "💙", "", "💜", "🤎", "🖤", "", "🤍", "💥", "💫", "💦", "💨",
+
+         // --- Gestures & People ---
+         "👋", "🤚", "🖐️", "✋", "🖖", "", "", "", "", "👌", "", "🤏", "✌️", "🤞",
+         "🫰", "🤟", "🤘", "🤙", "👈", "👉", "👆", "🖕", "👇", "☝️", "", "👍", "👎", "✊",
+         "👊", "🤛", "🤜", "👏", "🙌", "", "👐", "🤲", "🤝", "🙏", "✍️", "💅", "🤳", "💪",
+         "🦾", "🦿", "🦵", "🦶", "👂", "🦻", "👃", "🧠", "", "", "🦷", "🦴", "👀", "👁️",
+         "👅", "👄", "👶", "🧒", "👦", "👧", "🧑", "👨", "👩", "🧔", "👨‍🦰", "👩‍🦰", "👨‍🦱", "👩‍🦱",
+         "👨‍🦳", "👩‍🦳", "👨‍🦲", "👩‍🦲", "👱", "👴", "👵", "🙍", "🙎", "🙅", "🙆", "💁", "🙋", "🧏",
+         "🙇", "🤦", "🤷", "👨‍⚕️", "👩‍⚕️", "👨‍🎓", "👩‍🎓", "👨‍🏫", "👩‍🏫", "👨‍⚖️", "👩‍⚖️", "👨‍🌾", "👩‍🌾", "👨‍🍳",
+         "👩‍🍳", "👨‍🔧", "👩‍🔧", "👨‍🏭", "👩‍🏭", "👨‍💼", "👩‍💼", "👨‍🔬", "👩‍🔬", "👨‍💻", "👩‍💻", "👨‍🎤", "👩‍🎤", "👨‍🎨",
+         "👩‍🎨", "👨‍✈️", "👩‍✈️", "👨‍🚀", "👩‍🚀", "👨‍🚒", "👩‍🚒", "👮", "🕵️", "💂", "", "👷", "", "🤴",
+         "👸", "👳", "👲", "🧕", "🤵", "👰", "🤰", "", "", "🤱", "👼", "🎅", "🤶", "🧑‍🎄",
+
+         // --- Animals & Nature ---
+         "🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨", "🐯", "🦁", "🐮", "🐷",
+         "🐽", "🐸", "🐵", "🐒", "🐔", "🐧", "🐦", "🐤", "🐣", "🐥", "🦆", "🦅", "🦉", "🦇",
+         "🐺", "🐗", "🐴", "🦄", "🐝", "", "🐛", "🦋", "🐌", "🐞", "🐜", "", "", "",
+         "🦟", "🦗", "🕷️", "🕸️", "🦂", "🐢", "🐍", "🦎", "🦖", "🦕", "🐙", "🦑", "🦐", "🦞",
+         "🦀", "🐡", "🐠", "🐟", "🐬", "🐳", "🐋", "🦈", "🐊", "🐅", "🐆", "🦓", "🦍", "🦧",
+         "", "🐘", "🦏", "🦛", "🐪", "🐫", "🦙", "🦒", "🦘", "", "", "", "🦡", "🦥",
+         "🦦", "🦨", "🦩", "🦚", "🦜", "🦢", "", "", "🐕", "🦮", "🐕‍🦺", "🐩", "🐈", "🐈‍",
+         "", "", "", "🌲", "🌳", "🌴", "", "🌱", "🌿", "☘️", "🍀", "🎍", "", "🎋",
+         "🍃", "🍂", "🍁", "🍄", "🐚", "", "🌾", "💐", "🌷", "🌹", "🥀", "", "🌺", "🌸",
+
+         // --- Food & Drink ---
+         "🍇", "🍈", "🍉", "🍊", "🍋", "🍌", "🍍", "🥭", "🍎", "🍏", "🍐", "🍑", "🍒", "🍓",
+         "", "🥝", "🍅", "", "🥥", "🥑", "🍆", "🥔", "🥕", "🌽", "🌶️", "", "🥒", "🥬",
+         "🥦", "🧄", "🧅", "🥜", "", "🌰", "🍞", "🥐", "🥖", "", "🥨", "🥯", "🥞", "🧇",
+         "🧀", "🍖", "🍗", "🥩", "🥓", "🍔", "🍟", "🍕", "🌭", "🥪", "🌮", "🌯", "", "🥙",
+         "🧆", "🥚", "🍳", "🥘", "🍲", "", "🥣", "🥗", "🍿", "🧈", "🧂", "🥫", "🍱", "🍘",
+         "🍙", "🍚", "🍛", "🍜", "🍝", "🍠", "🍢", "🍣", "🍤", "🍥", "🥮", "🍡", "🥟", "🥠",
+         "🥡", "🦪", "🍦", "🍧", "🍨", "🍩", "🍪", "🎂", "🍰", "🧁", "🥧", "🍫", "🍬", "🍭",
+         "🍮", "🍯", "🍼", "🥛", "☕", "", "🍵", "🍶", "🍾", "🍷", "🍸", "🍹", "🍺", "🍻",
+         "🥂", "🥃", "", "🥤", "", "🧃", "🧉", "🧊",
+
+         // --- Travel & Places ---
+         "🚗", "🚕", "🚙", "🚌", "🏣", "🚎", "🏎️", "🚓", "🚑", "🚒", "🚐", "", "🚚", "🚛",
+         "🚜", "🧑‍🦽", "🧑‍🦼", "🛵", "🏍️", "🛺", "🚲", "🛴", "🛹", "", "🚏", "🛣️", "🛤️", "🛢️",
+         "⛽", "🚨", "🚥", "🚦", "🛑", "🚧", "⚓", "", "⛵", "🛶", "🚤", "🛳️", "⛴️", "🛥️",
+         "🚢", "✈️", "🛩️", "🛫", "🛬", "🪂", "💺", "🚁", "🏣", "🚀", "🛸", "🛰️", "🚀", "🗺️",
+         "🗿", "🗽", "🗼", "🏰", "🏯", "🏟️", "🎡", "🎢", "🎠", "⛲", "⛱️", "🏖️", "🏝️", "🏜️",
+         "🌋", "⛰️", "🏔️", "🗻", "🏕️", "⛺", "", "🏠", "🏡", "🏘️", "🏚️", "🏗️", "🏢", "🏬",
+         "🏣", "🏤", "🏥", "🏦", "🏨", "🏪", "🏫", "🏩", "💒", "🏛️", "⛪", "🕌", "🛕", "🕍",
+
+         // --- Activities & Sports ---
+         "⚽", "🏀", "🏈", "⚾", "🥎", "🎾", "🏐", "🏉", "🥏", "🎱", "🪀", "🏓", "🏸", "🏒",
+         "🏑", "🥍", "🏏", "🎯", "⛳", "🪁", "🏹", "🎣", "🥽", "🥼", "🛷", "🥌", "🎿", "",
+         "🎨", "🎬", "🎤", "🎧", "🎼", "🎹", "🥁", "", "🎷", "🎺", "", "🎸", "🪕", "🎻",
+         "🎲", "♟️", "🎯", "", "🎮", "🕹️", "🎰", "🧩",
+
+         // --- Objects & Tools ---
+         "🔇", "🔈", "🔉", "🔊", "📢", "📣", "📯", "🔔", "🔕", "🎼", "🎵", "🎶", "🎙️", "🎚️",
+         "🎛️", "🎤", "🎧", "📻", "🎷", "", "🎸", "🎹", "🎺", "🎻", "🪕", "🥁", "", "📱",
+         "📲", "☎️", "📞", "📟", "📠", "🔋", "", "🔌", "💻", "🖥️", "🖨️", "⌨️", "🖱️", "🖲️",
+         "💽", "💾", "💿", "📀", "🧮", "🎥", "🎞️", "📽️", "🎬", "📺", "📷", "📸", "📹", "📼",
+         "🔍", "🔎", "🕯️", "💡", "🔦", "🏮", "🪔", "📔", "📕", "📖", "📗", "📘", "📙", "📚",
+         "📓", "📒", "📃", "📜", "📄", "📰", "🗞️", "📑", "🔖", "🏷️", "💰", "", "💴", "💵",
+         "💶", "💷", "💸", "💳", "🧾", "✉️", "📧", "📨", "📩", "📤", "📥", "📦", "📫", "📪",
+         "📅", "📆", "🗓️", "📇", "📈", "📉", "📊", "📋", "📌", "📍", "📎", "🖇️", "📏", "📐",
+         "✂️", "🗃️", "🗄️", "🗑️", "🔒", "🔓", "🔏", "🔐", "🔑", "🗝️", "🔨", "🪓", "⛏️", "⚒️",
+         "🛠️", "🗡️", "⚔️", "💣", "", "🏹", "🛡️", "", "🔧", "🥜", "⚙️", "🗜️", "⚖️", "🦯",
+
+         // --- Symbols & Flags ---
+         "❤️","🧡", "💛", "💚", "💙", "💜", "🤎", "🖤", "🤍", "💘", "💝",
+         "💖", "💗", "💓", "💞", "💕", "💟", "❣️", "💔", "❤️‍🔥", "❤️‍🩹", "💯", "💢", "♨️", "🚷",
+         "🔞", "📵", "🚭", "❗", "❕", "❓", "👵", "⚠️", "🚸", "🔱", "⚜️", "🔰", "♻️", "✅",
+         "♈", "♉", "♊", "♋", "♌", "♍", "♎", "♏", "♐", "♑", "♒", "♓", "⛎", "🔀",
+         "", "🛂", "🛃", "🛄", "🛅", "🚹", "🚺", "🚼", "", "🚻", "🧹", "🧺", "🧻", "🧼",
+         "🧽", "🧯", "🛒", "🚬", "", "🧿", "", "💈", "⚗️", "🔭", "🔬", "🕳️", "🩺", "💊",
+         "💉", "🩸", "🩹", "🏷️", "📌", "🛑", "🟢", "🟡", "🔴", "🟣", "🟤", "⬛", "⬜", "🟥",
+         "🟦", "🟧", "🟨", "🟩", "🟪", "🟫", "🔻", "🔺", "🔶", "🔷", "🔹", "🔸", "▪️", "▫️",
+         "🏁", "🚩", "🎌", "🏴", "🏳️", "🏳️‍🌈", "🏳️", "🏴‍☠️"
+        ];
+
+        function initEmojiPicker() {
+            const picker = document.getElementById('emoji-picker');
+            if (!picker) return;
+            picker.innerHTML = '';
+            emojiList.forEach(e => {
+                const span = document.createElement('span');
+                span.className = 'emoji-item';
+                span.innerText = e;
+                span.onclick = function() {
+                    const input = document.getElementById('chat-input-msg');
+                    input.value += e;
+                    input.focus();
+                };
+                picker.appendChild(span);
+            });
+        }
+
+        function toggleEmojiPicker() {
+            const picker = document.getElementById('emoji-picker');
+            if (picker.style.display === 'flex') {
+                picker.style.display = 'none';
+            } else {
+                picker.style.display = 'flex';
+            }
+        }
+
+        window.onload = function() {
+            initEmojiPicker();
+            const intro = document.getElementById('intro-screen');
+            setTimeout(() => {
+                intro.style.opacity = '1';
+            }, 100);
+
+            setTimeout(() => {
+                intro.style.opacity = '0';
+                setTimeout(() => {
+                    intro.style.display = 'none';
+                    checkLoginState();
+                }, 1500);
+            }, 3000);
+        };
+
+        function showCustomAlert(msg) {
+            document.getElementById('custom-alert-text').innerText = msg;
+            document.getElementById('custom-alert-modal').style.display = 'flex';
+        }
+
+        function closeCustomAlert() {
+            document.getElementById('custom-alert-modal').style.display = 'none';
+        }
+
+        function checkLoginState() {
+            const savedEmail = localStorage.getItem('tux_userEmail');
+            const savedPass = localStorage.getItem('tux_userPassword');
+            const savedDisplayName = localStorage.getItem('tux_displayName');
+            const savedUsername = localStorage.getItem('tux_username');
+            const savedPlayer = localStorage.getItem('tux_playerName');
+            const savedFriendUser = localStorage.getItem('tux_friendUsername');
+            const savedUuid = localStorage.getItem('tux_playerUuid');
+
+            if (savedEmail && savedPass && savedUuid) {
+                userEmail = savedEmail;
+                userPassword = savedPass;
+                displayName = savedDisplayName || "NguoiChoi";
+                username = savedUsername || "user" + Math.floor(Math.random()*1000);
+                playerName = savedPlayer || displayName;
+                friendUsername = savedFriendUser || username;
+                playerUuid = savedUuid;
+
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('register-screen').style.display = 'none';
+                showMainMenu();
+                setupFirebaseUserSync();
+            } else {
+                showLoginScreen();
+            }
+        }
+
+        function showLoginScreen() {
+            document.getElementById('register-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+        }
+
+        function showRegisterScreen() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('register-screen').style.display = 'flex';
+        }
+
+        function submitRegister() {
+            const email = document.getElementById('reg-input-email').value.trim();
+            const pass = document.getElementById('reg-input-password').value.trim();
+            const disp = document.getElementById('reg-input-displayname').value.trim();
+            const uname = document.getElementById('reg-input-username').value.trim();
+
+            if (!email || !pass || !disp || !uname) {
+                showCustomAlert("Vui lòng điền đầy đủ tất cả thông tin đăng ký bắt buộc!");
+                return;
+            }
+
+            const cleanUname = uname.toLowerCase().replace(/[^a-z0-9_]/g, '');
+
+            if (cleanUname !== uname.toLowerCase()) {
+                showCustomAlert("Username chỉ được chứa chữ cái, số và dấu gạch dưới (_)");
+                return;
+            }
+
+            db.ref('usernames/' + cleanUname).once('value')
+                .then(snapshot => {
+                    if (snapshot.exists()) {
+                        showCustomAlert("Username này đã được sử dụng!");
+                        throw new Error("USERNAME_EXISTS");
+                    }
+
+                    return db.ref('users').once('value');
+                })
+                .then(usersSnap => {
+                    let emailExists = false;
+
+                    usersSnap.forEach(childSnap => {
+                        const u = childSnap.val();
+
+                        if (
+                            u &&
+                            u.email &&
+                            u.email.toLowerCase() === email.toLowerCase()
+                        ) {
+                            emailExists = true;
+                        }
+                    });
+
+                    if (emailExists) {
+                        showCustomAlert("Email này đã được đăng ký!");
+                        throw new Error("EMAIL_EXISTS");
+                    }
+
+                    playerUuid = 'user_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+
+                    userEmail = email;
+                    userPassword = pass;
+                    displayName = disp;
+                    username = cleanUname;
+                    playerName = disp;
+                    friendUsername = cleanUname;
+
+                    return Promise.all([
+                        db.ref('usernames/' + cleanUname).set(playerUuid),
+
+                        db.ref('users/' + playerUuid).set({
+                            email: userEmail,
+                            password: userPassword,
+                            displayName: displayName,
+                            username: username,
+                            playerName: playerName,
+                            friendUsername: friendUsername,
+                            avatar: currentAvatarUrl,
+                            status: 'online',
+                            lastOnline: Date.now()
+                        })
+                    ]);
+                })
+                .then(() => {
+                    localStorage.setItem('tux_userEmail', userEmail);
+                    localStorage.setItem('tux_userPassword', userPassword);
+                    localStorage.setItem('tux_displayName', displayName);
+                    localStorage.setItem('tux_username', username);
+                    localStorage.setItem('tux_playerName', playerName);
+                    localStorage.setItem('tux_friendUsername', friendUsername);
+                    localStorage.setItem('tux_playerUuid', playerUuid);
+
+                    document.getElementById('register-screen').style.display = 'none';
+
+                    showMainMenu();
+                    setupFirebaseUserSync();
+                })
+                .catch(error => {
+                    if (
+                        error.message === "USERNAME_EXISTS" ||
+                        error.message === "EMAIL_EXISTS"
+                    ) {
+                        return;
+                    }
+
+                    console.error("Lỗi đăng ký:", error);
+                    showCustomAlert("Không thể đăng ký tài khoản! Kiểm tra Console.");
+                });
+        }
+
+        function submitLogin() {
+            // Legacy login remains available; persistent ban state is checked
+            // only after the account has been found in Firebase.
+            SECURITY.locked = false;
+            const lockScreen = document.getElementById('security-lock-screen');
+            if (lockScreen) lockScreen.style.display = 'none';
+
+            const loginId = document.getElementById('login-input-id').value.trim();
+            const pass = document.getElementById('login-input-password').value.trim();
+            const customPlayerName = document.getElementById('login-input-playername').value.trim();
+            const customFriendUser = document.getElementById('login-input-friendusername').value.trim();
+
+            if (!loginId || !pass) {
+                showCustomAlert("Vui lòng nhập Username/Email và Mật khẩu!");
+                return;
+            }
+
+            db.ref('users').once('value').then(snapshot => {
+                let foundUserKey = null;
+                let userData = null;
+
+                snapshot.forEach(childSnap => {
+                    const u = childSnap.val();
+                    if ((u.email && u.email.toLowerCase() === loginId.toLowerCase()) || 
+                        (u.username && u.username.toLowerCase() === loginId.toLowerCase())) {
+                        if (u.password === pass) {
+                            foundUserKey = childSnap.key;
+                            userData = u;
+                        }
+                    }
+                });
+
+                if (foundUserKey && userData) {
+                    if (userData.permanentBan === true || userData.banned === true) {
+                        securityLockScreen(
+                            userData.banReason || 'Tài khoản đã bị cấm vĩnh viễn.'
+                        );
+                        return;
+                    }
+
+                    const blockedUntil = Number(userData.blockedUntil || 0);
+                    if (userData.securityBlocked === true &&
+                        blockedUntil > Date.now()) {
+                        const mins = Math.max(
+                            1,
+                            Math.ceil((blockedUntil - Date.now()) / 60000)
+                        );
+                        showCustomAlert(
+                            `🛡️ Tài khoản đang bị khóa. Còn khoảng ${mins} phút.`
+                        );
+                        return;
+                    }
+
+                    playerUuid = foundUserKey;
+                    userEmail = userData.email || "";
+                    userPassword = userData.password || "";
+                    displayName = userData.displayName || userData.username;
+                    username = userData.username || "user";
+                    playerName = customPlayerName || userData.playerName || displayName;
+                    friendUsername = customFriendUser || userData.friendUsername || username;
+
+                    localStorage.setItem('tux_userEmail', userEmail);
+                    localStorage.setItem('tux_userPassword', userPassword);
+                    localStorage.setItem('tux_displayName', displayName);
+                    localStorage.setItem('tux_username', username);
+                    localStorage.setItem('tux_playerName', playerName);
+                    localStorage.setItem('tux_friendUsername', friendUsername);
+                    localStorage.setItem('tux_playerUuid', playerUuid);
+
+                    db.ref('users/' + playerUuid).update({
+                        playerName: playerName,
+                        friendUsername: friendUsername,
+                        status: 'online',
+                        lastOnline: Date.now()
+                    });
+
+                    document.getElementById('login-screen').style.display = 'none';
+                    showMainMenu();
+                    setupFirebaseUserSync();
+                } else {
+                    showCustomAlert("Sai Username/Email hoặc Mật khẩu không chính xác!");
+                }
+            }).catch(error => {
+                console.error('Lỗi đăng nhập Firebase:', error);
+                showCustomAlert(
+                    'Không thể đọc dữ liệu tài khoản từ Firebase. ' +
+                    'Kiểm tra Firebase Rules, Database URL và kết nối mạng.'
+                );
+            });
+        }
+
+        function logoutAccount() {
+            if (playerUuid) {
+                db.ref('users/' + playerUuid + '/status').set('offline');
+            }
+            localStorage.clear();
+            location.reload();
+        }
+
+        function deleteAccountPermanently() {
+            if (confirm("⚠️ BẠN CÓ CHẮC CHẮN MUỐN XÓA TÀI KHOẢN VĨNH VIỄN?\nTất cả dữ liệu, bạn bè và gói dịch vụ sẽ bị xóa và không thể khôi phục!")) {
+                if (playerUuid) {
+                    if (username) {
+                        db.ref('usernames/' + username).remove();
+                    }
+                    db.ref('users/' + playerUuid).remove();
+                    db.ref('friends/' + playerUuid).remove();
+                    db.ref('friend_requests/' + playerUuid).remove();
+                    db.ref('chats/' + playerUuid).remove();
+                }
+                localStorage.clear();
+                alert("Tài khoản của bạn đã bị xóa vĩnh viễn!");
+                location.reload();
+            }
+        }
+
+        function setupFirebaseUserSync() {
+            if (!playerUuid) return;
+
+            const userRef = db.ref('users/' + playerUuid);
+            userRef.onDisconnect().update({
+                status: 'offline',
+                lastOnline: firebase.database.ServerValue.TIMESTAMP
+            });
+
+            userRef.update({
+                status: 'online',
+                lastOnline: firebase.database.ServerValue.TIMESTAMP
+            });
+
+            userRef.on('value', snapshot => {
+                const data = snapshot.val();
+                if (data) {
+                    if (data.avatar) {
+                        currentAvatarUrl = data.avatar;
+                        document.getElementById('settings-avatar-img').src = currentAvatarUrl;
+                    }
+                    if (data.description !== undefined) {
+                        userDescription = data.description;
+                        document.getElementById('settings-description-input').value = userDescription;
+                    }
+                    if (data.activePackage !== undefined) {
+                        currentPackage = data.activePackage;
+                        updatePackageUI();
+                    }
+                }
+            });
+
+            db.ref('friend_requests/' + playerUuid).on('value', snapshot => {
+                cachedRequestsSnap = snapshot;
+                let count = 0;
+                snapshot.forEach(child => {
+                    if (child.val().status === 'pending') {
+                        count++;
+                    }
+                });
+
+                const badge = document.getElementById('main-menu-req-badge');
+                const reqCount = document.getElementById('req-count');
+                
+                if (count > 0) {
+                    badge.innerText = count;
+                    badge.style.display = 'inline-block';
+                    reqCount.innerText = count;
+                    reqCount.style.display = 'inline-block';
+                } else {
+                    badge.style.display = 'none';
+                    reqCount.style.display = 'none';
+                }
+
+                if (currentFriendsTab === 'requests') {
+                    renderRequestsList();
+                }
+            });
+
+            db.ref('game_invites/' + playerUuid).on('value', snapshot => {
+                const data = snapshot.val();
+                if (data && data.roomCode && data.fromName) {
+                    pendingInviteRoomCode = data.roomCode;
+                    document.getElementById('game-invite-popup-text').innerText = `${data.fromName} đã mời bạn tham gia phòng game ${data.roomCode}!`;
+                    document.getElementById('game-invite-popup-modal').style.display = 'flex';
+                }
+            });
+
+            db.ref('friends/' + playerUuid).on('value', snapshot => {
+                cachedFriendSnap = snapshot;
+                if (currentFriendsTab === 'friends') {
+                    renderFriendsList();
+                }
+                updateActiveFriendsInLobby();
+            });
+        }
+
+        function acceptGameInvite() {
+            document.getElementById('game-invite-popup-modal').style.display = 'none';
+            if (!pendingInviteRoomCode || !playerUuid) return;
+
+            const invitedRoom = String(pendingInviteRoomCode).trim();
+            db.ref('rooms/' + invitedRoom).once('value').then(snapshot => {
+                if (!snapshot.exists()) {
+                    db.ref('game_invites/' + playerUuid).remove();
+                    showCustomAlert('🛡️ Phòng được mời không còn tồn tại hoặc chưa được xác định.');
+                    return;
+                }
+                const room = snapshot.val() || {};
+                if (room.closed === true || room.securityBlocked === true) {
+                    db.ref('game_invites/' + playerUuid).remove();
+                    showCustomAlert('🛡️ Phòng này đã bị khóa.');
+                    return;
+                }
+                db.ref('game_invites/' + playerUuid).remove();
+                document.getElementById('room-code').value = invitedRoom;
+                openLobby();
+                createRoom();
+            }).catch(() => {
+                showCustomAlert('Không thể xác minh phòng. Vui lòng thử lại.');
+            });
+        }
+
+        function closeGameInvitePopup() {
+            document.getElementById('game-invite-popup-modal').style.display = 'none';
+            db.ref('game_invites/' + playerUuid).remove();
+        }
+
+        function togglePasswordVisibility(inputId, eyeBtn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                eyeBtn.innerText = '🔓';
+            } else {
+                input.type = 'password';
+                eyeBtn.innerText = '🔒';
+            }
+        }
+
+        function openSettingsModal() {
+            document.getElementById('settings-display-name').innerText = displayName;
+            document.getElementById('settings-display-username').innerText = '@' + username;
+            
+            isSettingsEmailVisible = false;
+            isSettingsPassVisible = false;
+            document.getElementById('settings-display-email').innerText = '••••••••••••';
+            document.getElementById('settings-email-eye').innerText = '🔒';
+            document.getElementById('settings-display-pass').innerText = '••••••••••••';
+            document.getElementById('settings-pass-eye').innerText = '🔒';
+
+            document.getElementById('settings-avatar-img').src = currentAvatarUrl;
+            document.getElementById('btn-save-avatar').style.display = 'none';
+            document.getElementById('settings-description-input').value = userDescription || '';
+
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+
+        function toggleSettingsEmailVisibility() {
+            const emailElem = document.getElementById('settings-display-email');
+            const eyeElem = document.getElementById('settings-email-eye');
+            if (isSettingsEmailVisible) {
+                emailElem.innerText = '••••••••••••';
+                eyeElem.innerText = '🔒';
+                isSettingsEmailVisible = false;
+            } else {
+                emailElem.innerText = userEmail;
+                eyeElem.innerText = '🔓';
+                isSettingsEmailVisible = true;
+            }
+        }
+
+        function toggleSettingsPassVisibility() {
+            const passElem = document.getElementById('settings-display-pass');
+            const eyeElem = document.getElementById('settings-pass-eye');
+            if (isSettingsPassVisible) {
+                passElem.innerText = '••••••••••••';
+                eyeElem.innerText = '🔒';
+                isSettingsPassVisible = false;
+            } else {
+                passElem.innerText = userPassword;
+                eyeElem.innerText = '🔓';
+                isSettingsPassVisible = true;
+            }
+        }
+
+        function saveDescription() {
+            const desc = document.getElementById('settings-description-input').value.trim();
+            userDescription = desc;
+            if (playerUuid) {
+                db.ref('users/' + playerUuid + '/description').set(desc);
+                showCustomAlert("Đã lưu mô tả bản thân thành công!");
+            }
+        }
+
+        function previewNewAvatar(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempSelectedAvatar = e.target.result;
+                    document.getElementById('settings-avatar-img').src = tempSelectedAvatar;
+                    document.getElementById('btn-save-avatar').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveNewAvatar() {
+            if (tempSelectedAvatar && playerUuid) {
+                currentAvatarUrl = tempSelectedAvatar;
+                db.ref('users/' + playerUuid + '/avatar').set(currentAvatarUrl);
+                document.getElementById('btn-save-avatar').style.display = 'none';
+                tempSelectedAvatar = null;
+                showCustomAlert("Cập nhật ảnh đại diện thành công!");
+            }
+        }
+
+        function zoomImage(url) {
+            if (!url) return;
+            const modal = document.getElementById('zoom-avatar-modal');
+            const img = document.getElementById('zoomed-avatar-img');
+            img.src = url;
+            currentZoomScale = 1;
+            img.style.transform = `scale(${currentZoomScale})`;
+            modal.style.display = 'flex';
+        }
+
+        function closeZoomModalBtn() {
+            document.getElementById('zoom-avatar-modal').style.display = 'none';
+        }
+
+        function closeZoomModal(event) {
+            if (event.target.id === 'zoom-avatar-modal' || event.target.id === 'zoom-avatar-container') {
+                document.getElementById('zoom-avatar-modal').style.display = 'none';
+            }
+        }
+
+        function showMainMenu() {
+            document.getElementById('menu-screen').style.display = 'flex';
+        }
+
+        function selectLevel(lvl, btn) {
+            selectedLevel = lvl;
+            const btns = document.querySelectorAll('.level-btn');
+            btns.forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        function openLobby() {
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('lobby-screen').style.display = 'flex';
+            document.getElementById('welcome-user-info').innerText = `Tài khoản: ${displayName} (@${username})`;
+            updateActiveFriendsInLobby();
+        }
+
+        function backToMainMenu() {
+            document.getElementById('lobby-screen').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'flex';
+        }
+
+        function openFriendsScreen() {
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('friends-screen').style.display = 'flex';
+            switchFriendsTab('friends');
+        }
+
+        function closeFriendsScreen() {
+            document.getElementById('friends-screen').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'flex';
+        }
+
+        function switchFriendsTab(tab) {
+            currentFriendsTab = tab;
+            const btnFriends = document.getElementById('tab-btn-friends');
+            const btnRequests = document.getElementById('tab-btn-requests');
+
+            if (tab === 'friends') {
+                btnFriends.classList.add('selected');
+                btnRequests.classList.remove('selected');
+                renderFriendsList();
+            } else {
+                btnRequests.classList.add('selected');
+                btnFriends.classList.remove('selected');
+                renderRequestsList();
+            }
+        }
+
+        function handleFriendSearch(event) {
+            if (event.key === 'Enter') {
+                const targetUname = document.getElementById('friend-search').value.trim().toLowerCase();
+                if (!targetUname) return;
+
+                if (targetUname === username.toLowerCase()) {
+                    showCustomAlert("Bạn không thể kết bạn với chính mình!");
+                    return;
+                }
+
+                db.ref('usernames/' + targetUname).once('value', snapshot => {
+                    if (!snapshot.exists()) {
+                        showCustomAlert("Không tìm thấy người dùng với Username này!");
+                        return;
+                    }
+
+                    const targetUuid = snapshot.val();
+                    db.ref('friend_requests/' + targetUuid + '/' + playerUuid).set({
+                        fromUuid: playerUuid,
+                        fromDisplayName: displayName,
+                        fromUsername: username,
+                        fromAvatar: currentAvatarUrl,
+                        status: 'pending',
+                        timestamp: Date.now()
+                    }).then(() => {
+                        showCustomAlert(`Đã gửi lời mời kết bạn tới @${targetUname}!`);
+                        document.getElementById('friend-search').value = '';
+                    });
+                });
+            }
+        }
+
+        function renderFriendsList() {
+            const container = document.getElementById('friends-list-container');
+            container.innerHTML = '';
+
+            if (!cachedFriendSnap || !cachedFriendSnap.hasChildren()) {
+                container.innerHTML = '<div class="no-friend-text">Bạn chưa có bạn bè nào</div>';
+                return;
+            }
+
+            cachedFriendSnap.forEach(child => {
+                const friendData = child.val();
+                const fUuid = child.key;
+
+                const item = document.createElement('div');
+                item.className = 'friend-item';
+
+                db.ref('users/' + fUuid).once('value', uSnap => {
+                    const uVal = uSnap.val() || {};
+                    const isOnline = uVal.status === 'online';
+                    const avatar = uVal.avatar || friendData.avatar || currentAvatarUrl;
+                    const name = uVal.displayName || friendData.displayName || fUuid;
+                    const uName = uVal.username || friendData.username || '';
+
+                    item.innerHTML = `
+                        <div class="friend-info">
+                            <img class="friend-avatar-small" src="${avatar}" onclick="zoomImage('${avatar}')">
+                            <div>
+                                <div style="font-weight:bold; font-size:1rem;">${name} <span class="status-dot ${isOnline ? 'online' : 'offline'}"></span></div>
+                                <div style="font-size:0.8rem; color:#aaa;">@${uName}</div>
+                            </div>
+                        </div>
+                        <div class="friend-menu-container">
+                            <button class="three-dots-btn" onclick="toggleDropdown('drop-${fUuid}')">⋮</button>
+                            <div class="dropdown-menu" id="drop-${fUuid}">
+                                <button onclick="openChatWith('${fUuid}', '${name}')">💬 Nhắn tin</button>
+                                <button class="delete-btn" onclick="unfriend('${fUuid}')">❌ Hủy kết bạn</button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.appendChild(item);
+            });
+        }
+
+        function renderRequestsList() {
+            const container = document.getElementById('friends-list-container');
+            container.innerHTML = '';
+
+            if (!cachedRequestsSnap || !cachedRequestsSnap.hasChildren()) {
+                container.innerHTML = '<div class="no-friend-text">Không có lời mời kết bạn nào</div>';
+                return;
+            }
+
+            let hasPending = false;
+            cachedRequestsSnap.forEach(child => {
+                const req = child.val();
+                if (req.status === 'pending') {
+                    hasPending = true;
+                    const fromUuid = child.key;
+
+                    const item = document.createElement('div');
+                    item.className = 'friend-item';
+                    item.innerHTML = `
+                        <div class="friend-info">
+                            <img class="friend-avatar-small" src="${req.fromAvatar || currentAvatarUrl}" onclick="zoomImage('${req.fromAvatar || currentAvatarUrl}')">
+                            <div>
+                                <div style="font-weight:bold; font-size:0.95rem;">${req.fromDisplayName}</div>
+                                <div style="font-size:0.8rem; color:#aaa;">@${req.fromUsername}</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:5px;">
+                            <button class="level-btn" style="padding:4px 8px; font-size:0.8rem; background:#00cc44;" onclick="acceptFriendRequest('${fromUuid}', '${req.fromDisplayName}', '${req.fromUsername}', '${req.fromAvatar}')">Đồng ý</button>
+                            <button class="level-btn" style="padding:4px 8px; font-size:0.8rem; background:#cc3333;" onclick="rejectFriendRequest('${fromUuid}')">Từ chối</button>
+                        </div>
+                    `;
+                    container.appendChild(item);
+                }
+            });
+
+            if (!hasPending) {
+                container.innerHTML = '<div class="no-friend-text">Không có lời mời kết bạn nào</div>';
+            }
+        }
+
+        function toggleDropdown(dropId) {
+            document.querySelectorAll('.dropdown-menu').forEach(d => {
+                if (d.id !== dropId) d.style.display = 'none';
+            });
+            const drop = document.getElementById(dropId);
+            if (drop) {
+                drop.style.display = (drop.style.display === 'block') ? 'none' : 'block';
+            }
+        }
+
+        function acceptFriendRequest(fromUuid, fromName, fromUname, fromAvatar) {
+            db.ref('friends/' + playerUuid + '/' + fromUuid).set({
+                displayName: fromName,
+                username: fromUname,
+                avatar: fromAvatar || currentAvatarUrl,
+                timestamp: Date.now()
+            });
+
+            db.ref('friends/' + fromUuid + '/' + playerUuid).set({
+                displayName: displayName,
+                username: username,
+                avatar: currentAvatarUrl,
+                timestamp: Date.now()
+            });
+
+            db.ref('friend_requests/' + playerUuid + '/' + fromUuid).remove();
+        }
+
+        function rejectFriendRequest(fromUuid) {
+            db.ref('friend_requests/' + playerUuid + '/' + fromUuid).remove();
+        }
+
+        function unfriend(fUuid) {
+            if (confirm("Bạn có chắc muốn hủy kết bạn với người này?")) {
+                db.ref('friends/' + playerUuid + '/' + fUuid).remove();
+                db.ref('friends/' + fUuid + '/' + playerUuid).remove();
+            }
+        }
+
+        function openChatWith(fUuid, fName) {
+            activeChatFriendId = fUuid;
+            document.getElementById('chat-with-title').innerText = 'Trò chuyện với ' + fName;
+            document.getElementById('chat-screen').style.display = 'flex';
+            document.getElementById('emoji-picker').style.display = 'none';
+
+            const chatRoomId = playerUuid < fUuid ? `${playerUuid}_${fUuid}` : `${fUuid}_${playerUuid}`;
+            
+            db.ref('chats/' + chatRoomId).off();
+            db.ref('chats/' + chatRoomId).on('value', snapshot => {
+                renderChatMessages(snapshot);
+            });
+        }
+
+        function closeChat() {
+            document.getElementById('chat-screen').style.display = 'none';
+            document.getElementById('emoji-picker').style.display = 'none';
+            activeChatFriendId = null;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input-msg');
+            const msg = input.value.trim();
+            if (!msg || !activeChatFriendId) return;
+
+            const chatRoomId = playerUuid < activeChatFriendId ? `${playerUuid}_${activeChatFriendId}` : `${activeChatFriendId}_${playerUuid}`;
+            
+            db.ref('chats/' + chatRoomId).push({
+                senderUuid: playerUuid,
+                senderName: displayName,
+                message: msg,
+                type: 'text',
+                timestamp: Date.now()
+            });
+
+            input.value = '';
+            document.getElementById('emoji-picker').style.display = 'none';
+        }
+
+        function sendImageMessage(event) {
+            const file = event.target.files[0];
+            if (!file || !activeChatFriendId) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgData = e.target.result;
+                const chatRoomId = playerUuid < activeChatFriendId ? `${playerUuid}_${activeChatFriendId}` : `${activeChatFriendId}_${playerUuid}`;
+                
+                db.ref('chats/' + chatRoomId).push({
+                    senderUuid: playerUuid,
+                    senderName: displayName,
+                    message: imgData,
+                    type: 'image',
+                    timestamp: Date.now()
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleChatKey(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        function handleChatVirtualKey(key) {
+            const input = document.getElementById('chat-input-msg');
+            if (key === 'DEL') {
+                input.value = input.value.slice(0, -1);
+            } else if (key === 'SPACE') {
+                input.value += ' ';
+            } else if (key === 'UP') {
+                chatCapsLock = !chatCapsLock;
+            } else {
+                input.value += chatCapsLock ? key.toUpperCase() : key;
+            }
+            input.focus();
+        }
+
+        function renderChatMessages(snapshot) {
+            const container = document.getElementById('chat-messages-container');
+            container.innerHTML = '';
+
+            if (!snapshot.exists()) return;
+
+            snapshot.forEach(child => {
+                const msgData = child.val();
+                const msgKey = child.key;
+                const isMe = msgData.senderUuid === playerUuid;
+
+                const wrap = document.createElement('div');
+                wrap.style.display = 'flex';
+                wrap.style.flexDirection = 'column';
+                wrap.style.alignItems = isMe ? 'flex-end' : 'flex-start';
+
+                const headerStr = `<span style="font-size:0.75rem; color:#aaa; margin-bottom:2px;">${msgData.senderName}</span>`;
+
+                let contentHtml = '';
+                if (msgData.recalled) {
+                    contentHtml = `<div style="font-style:italic; color:#888; background:#333; padding:8px 12px; border-radius:8px;">Tin nhắn đã được thu hồi</div>`;
+                } else if (msgData.type === 'image') {
+                    contentHtml = `<img src="${msgData.message}" style="max-width:200px; max-height:200px; border-radius:8px; cursor:pointer;" onclick="zoomImage('${msgData.message}')">`;
+                } else {
+                    contentHtml = `<div style="background:${isMe ? '#0055ff' : '#333'}; padding:8px 12px; border-radius:8px; word-break:break-word;">${msgData.message}</div>`;
+                }
+
+                let actionsHtml = '';
+                if (isMe && !msgData.recalled) {
+                    actionsHtml = `
+                        <div style="margin-top:3px;">
+                            <span class="chat-action-btn recall" onclick="recallMessage('${msgKey}')">Thu hồi</span>
+                            <span class="chat-action-btn delete" onclick="deleteMessage('${msgKey}')">Xóa</span>
+                        </div>
+                    `;
+                } else if (isMe) {
+                    actionsHtml = `
+                        <div style="margin-top:3px;">
+                            <span class="chat-action-btn delete" onclick="deleteMessage('${msgKey}')">Xóa</span>
+                        </div>
+                    `;
+                }
+
+                wrap.innerHTML = headerStr + contentHtml + actionsHtml;
+                container.appendChild(wrap);
+            });
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function recallMessage(msgKey) {
+            if (!activeChatFriendId) return;
+            const chatRoomId = playerUuid < activeChatFriendId ? `${playerUuid}_${activeChatFriendId}` : `${activeChatFriendId}_${playerUuid}`;
+            db.ref('chats/' + chatRoomId + '/' + msgKey).update({
+                recalled: true
+            });
+        }
+
+        function deleteMessage(msgKey) {
+            if (!activeChatFriendId) return;
+            const chatRoomId = playerUuid < activeChatFriendId ? `${playerUuid}_${activeChatFriendId}` : `${activeChatFriendId}_${playerUuid}`;
+            db.ref('chats/' + chatRoomId + '/' + msgKey).remove();
+        }
+
+        function updateActiveFriendsInLobby() {
+            const container = document.getElementById('active-friends-list');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (!cachedFriendSnap || !cachedFriendSnap.hasChildren()) {
+                container.innerHTML = '<div style="font-size: 0.9rem; color:#aaa; font-style:italic;">Không có bạn bè nào</div>';
+                return;
+            }
+
+            let count = 0;
+            cachedFriendSnap.forEach(child => {
+                const fUuid = child.key;
+                db.ref('users/' + fUuid).once('value', uSnap => {
+                    const uVal = uSnap.val() || {};
+                    if (uVal.currentRoom) {
+                        count++;
+                        const row = document.createElement('div');
+                        row.className = 'active-friend-row';
+                        row.innerHTML = `
+                            <div>
+                                <b style="font-size:0.95rem;">${uVal.displayName}</b>
+                                <div style="font-size:0.8rem; color:#00ffcc;">Đang ở phòng: ${uVal.currentRoom}</div>
+                            </div>
+                            <button class="btn-join-friend" onclick="joinFriendRoom('${uVal.currentRoom}')">Vào chơi</button>
+                        `;
+                        container.appendChild(row);
+                    }
+                });
+            });
+
+            setTimeout(() => {
+                if (container.children.length === 0) {
+                    container.innerHTML = '<div style="font-size: 0.9rem; color:#aaa; font-style:italic;">Không có bạn bè nào đang trong phòng</div>';
+                }
+            }, 300);
+        }
+
+        function joinFriendRoom(roomCode) {
+            document.getElementById('room-code').value = roomCode;
+            createRoom();
+        }
+
+        function openInviteFriendsModal() {
+            const modal = document.getElementById('invite-friends-modal');
+            const container = document.getElementById('invite-friends-list-container');
+            container.innerHTML = '';
+            modal.style.display = 'flex';
+
+            if (!cachedFriendSnap || !cachedFriendSnap.hasChildren()) {
+                container.innerHTML = '<div class="no-friend-text">Không có bạn bè nào</div>';
+                return;
+            }
+
+            cachedFriendSnap.forEach(child => {
+                const fUuid = child.key;
+                const fData = child.val();
+
+                db.ref('users/' + fUuid).once('value', uSnap => {
+                    const uVal = uSnap.val() || {};
+                    const row = document.createElement('div');
+                    row.className = 'invite-row';
+                    row.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <img class="friend-avatar-small" src="${uVal.avatar || fData.avatar || currentAvatarUrl}">
+                            <div>
+                                <b style="font-size:0.95rem;">${uVal.displayName || fData.displayName}</b>
+                                <div style="font-size:0.75rem; color:#aaa;">@${uVal.username || fData.username}</div>
+                            </div>
+                        </div>
+                        <button class="btn-action-invite" id="btn-inv-${fUuid}" onclick="sendInviteToFriend('${fUuid}')">Mời</button>
+                    `;
+                    container.appendChild(row);
+                });
+            });
+        }
+
+        function closeInviteFriendsModal() {
+            document.getElementById('invite-friends-modal').style.display = 'none';
+        }
+
+        function sendInviteToFriend(fUuid) {
+            if (!currentRoomCode) return;
+            const btn = document.getElementById('btn-inv-' + fUuid);
+            if (btn) {
+                btn.innerText = 'Đã mời';
+                btn.classList.add('invited');
+                btn.onclick = null;
+            }
+
+            db.ref('game_invites/' + fUuid).set({
+                fromUuid: playerUuid,
+                fromName: displayName,
+                roomCode: currentRoomCode,
+                timestamp: Date.now()
+            });
+        }
+
+        function openPackagesModal() {
+            document.getElementById('packages-modal').style.display = 'flex';
+            updatePackageUI();
+        }
+
+        function closePackagesModal() {
+            document.getElementById('packages-modal').style.display = 'none';
+        }
+
+        function viewPackageInfo(pkgType) {
+            viewingPackage = pkgType;
+            const modal = document.getElementById('package-info-modal');
+            const title = document.getElementById('pkg-info-title');
+            const desc = document.getElementById('pkg-info-desc');
+
+            if (pkgType === 'plus') {
+                title.innerText = 'Gói Plus 🌟';
+                desc.innerHTML = `
+                    • Ưu tiên kết nối phòng chơi multiplayer.<br>
+                    • Mở khóa biểu tượng đặc biệt cạnh tên người dùng.<br>
+                    • Trải nghiệm tốc độ cao chuẩn Pro.<br>
+                    • <b>Dùng thử trải nghiệm 30 giây!</b>
+                `;
+            } else {
+                title.innerText = 'Gói Premium 👑';
+                desc.innerHTML = `
+                    • Toàn bộ đặc quyền của Gói Plus.<br>
+                    • Mở khóa avatar động đặc biệt.<br>
+                    • Không giới hạn số lượng bạn bè và tin nhắn.<br>
+                    • Hỗ trợ ưu tiên 24/7 từ MicroFILUX Studio.<br>
+                    • <b>Dùng thử trải nghiệm 30 giây!</b>
+                `;
+            }
+            modal.style.display = 'flex';
+        }
+
+        function closePackageInfo() {
+            document.getElementById('package-info-modal').style.display = 'none';
+        }
+
+        function subscribePackage() {
+            currentPackage = viewingPackage;
+            db.ref('users/' + playerUuid + '/activePackage').set(currentPackage);
+            closePackageInfo();
+            updatePackageUI();
+
+            if (packageTimer) clearTimeout(packageTimer);
+            packageTimer = setTimeout(() => {
+                showTrollModal();
+            }, 30000);
+        }
+
+        function cancelPackage() {
+            currentPackage = null;
+            db.ref('users/' + playerUuid + '/activePackage').remove();
+            if (packageTimer) clearTimeout(packageTimer);
+            updatePackageUI();
+            showCustomAlert("Đã hủy gói dịch vụ thành công.");
+        }
+
+        function updatePackageUI() {
+            const subText = document.getElementById('current-sub-text');
+            const cancelBtn = document.getElementById('cancel-sub-btn');
+
+            if (currentPackage === 'plus') {
+                subText.innerText = 'Bạn đang sử dụng: Gói Plus 🌟';
+                cancelBtn.style.display = 'block';
+            } else if (currentPackage === 'premium') {
+                subText.innerText = 'Bạn đang sử dụng: Gói Premium 👑';
+                cancelBtn.style.display = 'block';
+            } else {
+                subText.innerText = 'Bạn chưa đăng ký gói nào.';
+                cancelBtn.style.display = 'none';
+            }
+        }
+
+        function showTrollModal() {
+            const modal = document.getElementById('troll-payment-modal');
+            const msg = document.getElementById('troll-msg');
+            msg.innerText = `⚠️ Gói ${currentPackage === 'plus' ? 'Plus' : 'Premium'} dùng thử 30 giây của bạn đã HẾT HẠN!\nVui lòng thanh toán gia hạn ngay để tiếp tục sử dụng dịch vụ.`;
+            modal.style.display = 'flex';
+        }
+
+        function payTroll() {
+            alert("😂 Cảm ơn bạn đã thanh toán thử nghiệm! Gói được gia hạn thêm 30 giây nữa.");
+            document.getElementById('troll-payment-modal').style.display = 'none';
+            if (packageTimer) clearTimeout(packageTimer);
+            packageTimer = setTimeout(() => {
+                showTrollModal();
+            }, 30000);
+        }
+
+        function cancelTroll() {
+            document.getElementById('troll-payment-modal').style.display = 'none';
+            cancelPackage();
+        }
+
+        function startSinglePlayer() {
+            isMultiplayer = false;
+            initGame();
+        }
+
+        function createRoom() {
+            const codeInput = document.getElementById('room-code').value.trim();
+            if (!codeInput) {
+                showCustomAlert("Vui lòng nhập mã phòng!");
+                return;
+            }
+
+            isMultiplayer = true;
+            currentRoomCode = codeInput;
+
+            const roomRef = db.ref('rooms/' + currentRoomCode);
+            roomRef.once('value', snapshot => {
+                if (!snapshot.exists()) {
+                    isHost = true;
+                    roomRef.set({
+                        createdAt: Date.now(),
+                        host: playerUuid
+                    });
+                } else {
+                    isHost = false;
+                }
+
+                db.ref('users/' + playerUuid + '/currentRoom').set(currentRoomCode);
+                roomRef.child('players/' + playerUuid).set({
+                    name: displayName,
+                    score: 0
+                });
+
+                roomRef.child('players/' + playerUuid).onDisconnect().remove();
+                db.ref('users/' + playerUuid + '/currentRoom').onDisconnect().remove();
+
+                listenToScoreboard();
+                initGame();
+            });
+        }
+
+        function listenToScoreboard() {
+            const board = document.getElementById('multiplayer-scoreboard');
+            const liveScores = document.getElementById('live-scores');
+            board.style.display = 'block';
+
+            db.ref('rooms/' + currentRoomCode + '/players').on('value', snapshot => {
+                liveScores.innerHTML = '';
+                snapshot.forEach(child => {
+                    const p = child.val();
+                    const row = document.createElement('div');
+                    row.className = 'score-row';
+                    row.innerHTML = `<span>${p.name}</span><b>${p.score}</b>`;
+                    liveScores.appendChild(row);
+                });
+            });
+        }
+
+        function initGame() {
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('lobby-screen').style.display = 'none';
+            document.getElementById('game-screen').style.display = 'block';
+            document.getElementById('pause-screen').style.display = 'none';
+            document.getElementById('gameover-screen').style.display = 'none';
+
+            if (isMultiplayer) {
+                document.getElementById('btn-invite-multi').style.display = 'block';
+            } else {
+                document.getElementById('btn-invite-multi').style.display = 'none';
+            }
+
+           currentStage = 0;
+
+           document.getElementById('game-screen').style.backgroundImage =
+               backgroundStages[currentStage];
+
+            score = 0;
+            missedCount = 0;
+            updateHUD();
+
+            meteors.forEach(m => m.element.remove());
+            meteors = [];
+
+            gameRunning = true;
+            isPaused = false;
+
+            window.removeEventListener('keydown', handleKeyPress);
+            window.addEventListener('keydown', handleKeyPress);
+
+            startSpawning();
+            gameLoop();
+        }
+
+        function updateHUD() {
+            document.getElementById('score').innerText = score;
+            document.getElementById('missed-count').innerText = missedCount;
+
+            if (isMultiplayer && currentRoomCode && playerUuid) {
+                db.ref(`rooms/${currentRoomCode}/players/${playerUuid}/score`).set(score);
+            }
+        }
+
+        function spawnMeteor() {
+            if (!gameRunning || isPaused) return;
+
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const char = alphabet[Math.floor(Math.random() * alphabet.length)];
+
+            const meteorElem = document.createElement('div');
+            meteorElem.className = 'meteor';
+            meteorElem.innerText = char;
+
+            const x = Math.random() * (window.innerWidth - 100) + 50;
+            const y = -30;
+
+            meteorElem.style.left = x + 'px';
+            meteorElem.style.top = y + 'px';
+
+            document.getElementById('game-screen').appendChild(meteorElem);
+
+            meteors.push({
+                element: meteorElem,
+                char: char,
+                x: x,
+                y: y,
+                speed: speeds[selectedLevel] || 2
+            });
+        }
+
+        function startSpawning() {
+            if (spawnInterval) clearInterval(spawnInterval);
+            const rate = Math.max(600, 2000 - (selectedLevel * 250));
+            spawnInterval = setInterval(spawnMeteor, rate);
+        }
+
+        function gameLoop() {
+            if (gameLoopInterval) cancelAnimationFrame(gameLoopInterval);
+
+            function update() {
+                if (gameRunning && !isPaused) {
+                    for (let i = meteors.length - 1; i >= 0; i--) {
+                        let m = meteors[i];
+                        m.y += m.speed;
+                        m.element.style.top = m.y + 'px';
+
+                        if (m.y > window.innerHeight - 80) {
+                            createExplosion(m.x, window.innerHeight - 80);
+                            m.element.remove();
+                            meteors.splice(i, 1);
+
+                            missedCount++;
+                            updateHUD();
+
+                            if (missedCount >= maxMissed) {
+                                gameOver();
+                                return;
+                            }
+                        }
+                    }
+                }
+                if (gameRunning) {
+                    gameLoopInterval = requestAnimationFrame(update);
+                }
+            }
+            gameLoopInterval = requestAnimationFrame(update);
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Escape') {
+                togglePause();
+                return;
+            }
+
+            if (!gameRunning || isPaused) return;
+
+            const key = e.key.toUpperCase();
+            processInputKey(key);
+        }
+
+        function handleVirtualKey(key) {
+            if (!gameRunning || isPaused) return;
+            processInputKey(key);
+        }
+
+        function processInputKey(key) {
+            for (let i = 0; i < meteors.length; i++) {
+                if (meteors[i].char === key) {
+                    createExplosion(meteors[i].x, meteors[i].y);
+                    meteors[i].element.remove();
+                    meteors.splice(i, 1);
+
+                    score += 10;
+
+                 // Cứ mỗi 100 điểm chuyển sang hành tinh tiếp theo
+                 if (score > 0 && score % 100 === 0) {
+                  currentStage++;
+
+                 // Nếu đã đi hết tất cả ảnh thì quay lại Mặt Trời
+                 if (currentStage >= backgroundStages.length) {
+                  currentStage = 0;
+                 }
+
+                 document.getElementById('game-screen').style.backgroundImage =
+                 backgroundStages[currentStage];
+                 }
+
+                 updateHUD();
+                 break;
+                }
+            }
+        }
+
+        function toggleNitroSecurityStatus() {
+            const status = document.getElementById('nitro-security-status');
+            const toggle = status.querySelector('.nitro-toggle');
+            const collapsed = status.classList.toggle('collapsed');
+            toggle.setAttribute('aria-label', collapsed ? 'Mở danh sách Anti-Bot' : 'Thu nhỏ danh sách Anti-Bot');
+        }
+
+        function toggleVirtualKeyboard() {
+            const vk = document.getElementById('virtual-keyboard');
+            const btn = document.getElementById('toggle-kb-btn');
+            if (vk.style.display === 'none') {
+                vk.style.display = 'flex';
+                btn.innerText = '⌨️ Ẩn bàn phím';
+            } else {
+                vk.style.display = 'none';
+                btn.innerText = '⌨️ Hiện bàn phím';
+            }
+        }
+
+        function createExplosion(x, y) {
+            const exp = document.createElement('div');
+            exp.className = 'explosion';
+            exp.style.left = x + 'px';
+            exp.style.top = y + 'px';
+            document.getElementById('game-screen').appendChild(exp);
+
+            setTimeout(() => {
+                exp.remove();
+            }, 300);
+        }
+
+        function togglePause() {
+            if (!gameRunning) return;
+            isPaused = !isPaused;
+            document.getElementById('pause-screen').style.display = isPaused ? 'flex' : 'none';
+        }
+
+        function resumeGame() {
+            isPaused = false;
+            document.getElementById('pause-screen').style.display = 'none';
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            clearInterval(spawnInterval);
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('gameover-screen').style.display = 'flex';
+        }
+
+        function restartGame() {
+            initGame();
+        }
+
+        function backToMenu() {
+            gameRunning = false;
+            clearInterval(spawnInterval);
+            if (gameLoopInterval) cancelAnimationFrame(gameLoopInterval);
+
+            if (isMultiplayer && currentRoomCode && playerUuid) {
+                db.ref(`rooms/${currentRoomCode}/players/${playerUuid}`).remove();
+                db.ref('users/' + playerUuid + '/currentRoom').remove();
+                db.ref(`rooms/${currentRoomCode}/players`).off();
+            }
+
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('pause-screen').style.display = 'none';
+            document.getElementById('gameover-screen').style.display = 'none';
+            document.getElementById('multiplayer-scoreboard').style.display = 'none';
+
+            showMainMenu();
+        }
+
+        /* =========================================================
+           MICROFILUX SECURITY SHIELD 3.0
+           Legacy RTDB compatible:
+           - anti flood (chat/friend/invite)
+           - 300-char chat limit
+           - 100-player room admission cap
+           - abnormal score/level detection
+           - progressive temporary/permanent lock
+           - Firebase audit trail
+           ========================================================= */
+        const SECURITY = {
+            chat: { windowMs: 5000, max: 3, strikes: 0, blockedUntil: 0 },
+            friend: { windowMs: 60000, max: 5, strikes: 0, blockedUntil: 0 },
+            invite: { windowMs: 60000, max: 5, strikes: 0, blockedUntil: 0 },
+            chatHistory: [],
+            friendHistory: [],
+            inviteHistory: [],
+            suspiciousCount: 0,
+            locked: false,
+            localPenaltyLevel: 0,
+            registrationAttempts: 0,
+            registrationWindowStartedAt: 0,
+            deviceId: null,
+            score: { value: 0, at: 0, lastLevel: 0 }
+        };
+
+        const PENALTIES = [
+            { label: '5 phút', ms: 5 * 60 * 1000 },
+            { label: '10 phút', ms: 10 * 60 * 1000 },
+            { label: '30 phút', ms: 30 * 60 * 1000 },
+            { label: '1 giờ', ms: 60 * 60 * 1000 },
+            { label: '5 giờ', ms: 5 * 60 * 60 * 1000 },
+            { label: '24 giờ', ms: 24 * 60 * 60 * 1000 },
+            { label: 'VĨNH VIỄN', ms: Infinity }
+        ];
+
+        function securityGetDeviceId() {
+            let id = localStorage.getItem('tux_security_device_id');
+            if (!id) {
+                id = 'dev_' + Date.now().toString(36) + '_' +
+                     Math.random().toString(36).slice(2, 12);
+                localStorage.setItem('tux_security_device_id', id);
+            }
+            SECURITY.deviceId = id;
+            return id;
+        }
+
+        function securityWriteAudit(type, reason, extra = {}) {
+            try {
+                const key = playerUuid || securityGetDeviceId();
+                db.ref('security_events/' + key).push(Object.assign({
+                    type: String(type),
+                    reason: String(reason || '').slice(0, 500),
+                    deviceId: securityGetDeviceId(),
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                }, extra));
+            } catch (_) {}
+        }
+
+        function securityLockScreen(reason) {
+            SECURITY.locked = true;
+            gameRunning = false;
+            if (spawnInterval) clearInterval(spawnInterval);
+            if (gameLoopInterval) cancelAnimationFrame(gameLoopInterval);
+
+            const el = document.getElementById('security-lock-screen');
+            const msg = document.getElementById('security-lock-message');
+            if (msg) msg.innerText =
+                '🛡️ TÀI KHOẢN ĐÃ BỊ KHÓA\n\n' +
+                String(reason || 'Phát hiện hoạt động bất thường.') +
+                '\n\nSự kiện đã được ghi nhận trên Firebase.';
+            if (el) el.style.display = 'flex';
+        }
+
+        function securityWriteUserState(state) {
+            if (!playerUuid) return;
+            db.ref('users/' + playerUuid).update(state).catch(() => {});
+        }
+
+        function securityApplyPenalty(reason, source) {
+            const index = Math.min(
+                SECURITY.localPenaltyLevel,
+                PENALTIES.length - 1
+            );
+            const penalty = PENALTIES[index];
+            SECURITY.localPenaltyLevel++;
+
+            const permanent = penalty.ms === Infinity;
+            const blockedUntil = permanent ? null : Date.now() + penalty.ms;
+
+            securityWriteAudit('penalty', reason, {
+                source: source || 'security',
+                penaltyLevel: index + 1,
+                penalty: penalty.label,
+                blockedUntil
+            });
+
+            securityWriteUserState({
+                securityFlag: true,
+                securityBlocked: true,
+                securityPenaltyLevel: index + 1,
+                blockedUntil,
+                banReason: String(reason).slice(0, 500),
+                securityReason: String(reason).slice(0, 500),
+                ...(permanent ? {
+                    banned: true,
+                    permanentBan: true
+                } : {})
+            });
+
+            if (permanent) {
+                securityLockScreen(reason);
+            } else {
+                showCustomAlert(
+                    `🛡️ ${source || 'Bảo mật'}: ${reason}\nCấm ${penalty.label}.`
+                );
+            }
+            return false;
+        }
+
+        function securityCheckPersistentBan(data) {
+            if (!data) return false;
+
+            if (data.permanentBan === true || data.banned === true) {
+                securityLockScreen(
+                    data.banReason || 'Tài khoản bị cấm vĩnh viễn.'
+                );
+                return true;
+            }
+
+            const until = Number(data.blockedUntil || 0);
+
+            if (data.securityBlocked === true && until > Date.now()) {
+                const mins = Math.max(1, Math.ceil((until - Date.now()) / 60000));
+                showCustomAlert(
+                    `🛡️ Tài khoản đang bị khóa. Còn khoảng ${mins} phút.`
+                );
+                return true;
+            }
+
+            // Expired temporary penalty: clear only temporary flags.
+            if (data.securityBlocked === true && until > 0 &&
+                until <= Date.now() && playerUuid) {
+                securityWriteUserState({
+                    securityBlocked: false,
+                    blockedUntil: null,
+                    securityFlag: false,
+                    securityReason: null
+                });
+            }
+
+            return false;
+        }
+
+        function securityRateLimit(bucket, history, reason) {
+            if (SECURITY.locked) return false;
+
+            const now = Date.now();
+            const cfg = SECURITY[bucket];
+
+            if (cfg.blockedUntil > now) {
+                showCustomAlert('🛡️ Thao tác đang bị chặn do spam.');
+                return false;
+            }
+
+            while (history.length && now - history[0] > cfg.windowMs) {
+                history.shift();
+            }
+
+            history.push(now);
+
+            if (history.length > cfg.max) {
+                cfg.strikes++;
+                cfg.blockedUntil = now + Math.min(
+                    30000 * cfg.strikes,
+                    120000
+                );
+
+                if (cfg.strikes >= 3) {
+                    return securityApplyPenalty(reason, bucket);
+                }
+
+                securityWriteAudit('rate_limit', reason, {
+                    source: bucket,
+                    strikes: cfg.strikes
+                });
+
+                showCustomAlert('🛡️ Phát hiện spam. Đã chặn thao tác.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function securityCheckChat() {
+            const input = document.getElementById('chat-input-msg');
+            if (input && input.value.length > 300) {
+                return securityApplyPenalty(
+                    'Tin nhắn vượt quá giới hạn 300 ký tự.',
+                    'chat_length'
+                );
+            }
+
+            return securityRateLimit(
+                'chat',
+                SECURITY.chatHistory,
+                'Spam tin nhắn.'
+            );
+        }
+
+        function securityCheckFriend() {
+            return securityRateLimit(
+                'friend',
+                SECURITY.friendHistory,
+                'Spam lời mời kết bạn.'
+            );
+        }
+
+        function securityCheckInvite() {
+            return securityRateLimit(
+                'invite',
+                SECURITY.inviteHistory,
+                'Spam lời mời vào phòng.'
+            );
+        }
+
+        function securityCheckScore(nextScore) {
+            if (!Number.isFinite(nextScore) ||
+                nextScore < 0 ||
+                nextScore % 10 !== 0) {
+                return securityApplyPenalty(
+                    'Điểm/level có giá trị không hợp lệ.',
+                    'anti_cheat'
+                );
+            }
+
+            const now = Date.now();
+
+            // Normal game score increments by 10. A larger jump is suspicious.
+            if (SECURITY.score.value > 0 &&
+                nextScore > SECURITY.score.value + 10) {
+                return securityApplyPenalty(
+                    'Tăng level/điểm bất thường.',
+                    'anti_cheat'
+                );
+            }
+
+            // Do not accept multiple score increments in an unrealistically
+            // short interval.
+            if (SECURITY.score.value > 0 &&
+                nextScore > SECURITY.score.value &&
+                SECURITY.score.at &&
+                now - SECURITY.score.at < 80) {
+                return securityApplyPenalty(
+                    'Tăng điểm quá nhanh.',
+                    'anti_cheat'
+                );
+            }
+
+            SECURITY.score.value = nextScore;
+            SECURITY.score.at = now;
+            return true;
+        }
+
+        function securityCheckRoomAdmission(roomCode) {
+            if (!roomCode || !playerUuid || SECURITY.locked) {
+                return Promise.resolve(false);
+            }
+
+            return db.ref('rooms/' + roomCode).once('value')
+                .then(snapshot => {
+                    if (!snapshot.exists()) {
+                        showCustomAlert(
+                            '🛡️ Phòng chưa tồn tại hoặc mã phòng không hợp lệ.'
+                        );
+                        return false;
+                    }
+
+                    const room = snapshot.val() || {};
+                    if (room.closed === true ||
+                        room.securityBlocked === true) {
+                        showCustomAlert('🛡️ Phòng đã bị khóa.');
+                        return false;
+                    }
+
+                    const players = room.players || {};
+                    const count = Object.keys(players).length;
+
+                    if (count >= 100) {
+                        securityWriteAudit(
+                            'room_capacity_block',
+                            'Phòng đã đạt 100 người.',
+                            { roomCode, playerCount: count }
+                        );
+                        showCustomAlert(
+                            '🛡️ Phòng đã đủ 100 người. Không thể tham gia.'
+                        );
+                        return false;
+                    }
+
+                    return true;
+                })
+                .catch(() => {
+                    showCustomAlert('Không thể xác minh phòng.');
+                    return false;
+                });
+        }
+
+        function securityLoadLocalState() {
+            securityGetDeviceId();
+            try {
+                const raw = localStorage.getItem('tux_registration_guard');
+                if (!raw) return;
+                const state = JSON.parse(raw);
+                SECURITY.registrationAttempts =
+                    Number(state.attempts || 0);
+                SECURITY.registrationWindowStartedAt =
+                    Number(state.startedAt || 0);
+            } catch (_) {}
+        }
+
+        function securityCheckRegistrationAttempt() {
+            const now = Date.now();
+            const day = 24 * 60 * 60 * 1000;
+
+            if (!SECURITY.registrationWindowStartedAt ||
+                now - SECURITY.registrationWindowStartedAt > day) {
+                SECURITY.registrationWindowStartedAt = now;
+                SECURITY.registrationAttempts = 0;
+            }
+
+            SECURITY.registrationAttempts++;
+
+            try {
+                localStorage.setItem(
+                    'tux_registration_guard',
+                    JSON.stringify({
+                        attempts: SECURITY.registrationAttempts,
+                        startedAt: SECURITY.registrationWindowStartedAt
+                    })
+                );
+            } catch (_) {}
+
+            if (SECURITY.registrationAttempts > 3) {
+                return securityApplyPenalty(
+                    'Vượt quá 3 lần đăng ký cho phép.',
+                    'registration'
+                );
+            }
+
+            return true;
+        }
+
+        // ---- Function guards ----
+        const _sendChatMessageOriginal = sendChatMessage;
+        sendChatMessage = function() {
+            if (!securityCheckChat()) return;
+            return _sendChatMessageOriginal();
+        };
+
+        const _sendImageMessageOriginal = sendImageMessage;
+        sendImageMessage = function(event) {
+            if (!securityCheckChat()) return;
+            return _sendImageMessageOriginal(event);
+        };
+
+        const _handleFriendSearchOriginal = handleFriendSearch;
+        handleFriendSearch = function(event) {
+            if (event && event.key === 'Enter') {
+                if (!securityCheckFriend()) return;
+            }
+            return _handleFriendSearchOriginal(event);
+        };
+
+        const _sendInviteToFriendOriginal = sendInviteToFriend;
+        sendInviteToFriend = function(fUuid) {
+            if (!securityCheckInvite()) return;
+            if (!currentRoomCode) {
+                showCustomAlert(
+                    '🛡️ Không thể gửi lời mời: chưa xác định phòng.'
+                );
+                return;
+            }
+            return _sendInviteToFriendOriginal(fUuid);
+        };
+
+        const _updateHUDOriginal = updateHUD;
+        updateHUD = function() {
+            if (SECURITY.locked) return;
+            if (isMultiplayer && !securityCheckScore(score)) return;
+            return _updateHUDOriginal();
+        };
+
+        const _createRoomOriginal = createRoom;
+        createRoom = function() {
+            if (SECURITY.locked) return;
+
+            const code = String(
+                document.getElementById('room-code')?.value || ''
+            ).trim();
+
+            if (!code) return _createRoomOriginal();
+
+            db.ref('rooms/' + code).once('value')
+                .then(snapshot => {
+                    if (snapshot.exists()) {
+                        return securityCheckRoomAdmission(code)
+                            .then(ok => {
+                                if (ok) _createRoomOriginal();
+                            });
+                    }
+
+                    // Creating a new room is allowed.
+                    _createRoomOriginal();
+                })
+                .catch(() => {
+                    showCustomAlert('Không thể kiểm tra phòng.');
+                });
+        };
+
+        const _submitRegisterOriginal = submitRegister;
+        submitRegister = function() {
+            if (SECURITY.locked) return;
+            return _submitRegisterOriginal();
+        };
+
+        const _setupFirebaseUserSyncOriginal = setupFirebaseUserSync;
+        setupFirebaseUserSync = function() {
+            const result = _setupFirebaseUserSyncOriginal();
+            if (!playerUuid) return result;
+
+            db.ref('users/' + playerUuid).on('value', snapshot => {
+                securityCheckPersistentBan(snapshot.val() || {});
+            });
+
+            return result;
+        };
+
+        securityLoadLocalState();
+
+    </script>
+</body>
+</html>
